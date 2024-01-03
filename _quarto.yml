@@ -1,0 +1,64 @@
+project:
+  type: website
+
+website:
+  title: "Formation R - ISEE 2024"
+  navbar:
+    tools:
+      - icon: github
+        menu:
+          - text: Ma page github
+            url:  https://github.com/NoeBarthelemy
+          - text: Code source du site 
+            url:  https://bugs.com
+    search: true
+    left:
+      - href: Sommaire_cours.qmd
+        text: "La formation R" 
+      - href: Trouver_de_laide.qmd
+        text: "Besoin d'aide ?"
+      - href: Charte_bonnes_pratiques.qmd
+        text: "Charte des bonnes pratiques (PDF)"
+
+  sidebar:
+    - title: "La formation R"
+      style: "docked"
+      search: true
+      contents:
+        - Sommaire_cours.qmd
+        - href: Jeu_de_donnees_RP2019.qmd
+          text: "Jeu de données RP 2019"  
+        - href: 01_Cours_1_Les_bases.qmd
+          text: "Cours N°1 : Les bases"
+        - href: 02_Cours_2_Analyser_le_RP.qmd
+          text: "Cours N°2 : Analyse du RP"
+
+    - title: "Besoin d'aide ?"
+      contents:
+        - Trouver_de_laide.qmd
+        # navigation items
+
+    - title: "Charte des bonnes pratiques (PDF)"
+      contents:
+        - Charte_bonnes_pratiques.qmd
+        # navigation items
+
+    
+format:
+  html:
+    theme: Litera
+    css: styles.css
+    toc: true
+    width: 100%
+    margin-left: 10px
+    margin-right: 10px
+    back-to-top-navigation: true
+
+
+
+editor: visual
+
+
+
+
+
