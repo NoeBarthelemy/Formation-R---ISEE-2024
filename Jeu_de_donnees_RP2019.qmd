@@ -1,0 +1,42 @@
+---
+title: "Jeu de données d'exemple du Recensement 2019"
+format: html
+editor: visual
+---
+
+Pendant cette formation, nous utiliserons le jeu de données du recensement de la population de Nouvelle-Calédonie. Ainsi, les exemples vous serons parlants, et nous pourrons créer des fonctions ,figures, etc, que vous pourrez recycler plus tard !
+
+Le lien vers les données : [ISEE - Données brutes du Recensement 2019 en OPEN DATA](https://www.isee.nc/publications/la-nouvelle-caledonie-en-cartes-et-en-chiffres/donnees-du-recensement-2019-en-open-data)
+
+Voici ce qu'on peut lire sur le site de l'ISEE à propos des données du recensement :
+
+Ces jeux de **données anonymisées** au format ***.csv*** permettent aux **utilisateurs avertis** un usage personnalisé des données du recensement de la population : analyses exploratoires de données ; modélisation des comportements ; tabulation sur une sous-population particulière\...
+
+```{r, eval=T, echo=F, warning=F}
+library(readr)
+library(here)
+RP2019NC_OD_ind_Iles <- read_delim(here("..", "02_donnees", "RP2019NC_OD_ind_Iles.csv"), 
+    delim = ";", escape_double = FALSE, trim_ws = TRUE)
+```
+
+Voyons voir ce que ça donne pour la Province des Îles :
+
+```{r}
+head(RP2019NC_OD_ind_Iles)
+```
+
+**Ok, on dirait qu'on aura besoin d'un dictionnaire de variables. Le voici :**
+
+::: column-screen
+![](images/Documentation_RP2019_Individus%20OD.pdf){fig-align="center" width="1450" height="2100"}
+:::
+
+**Et voici le bulletin individuel rempli par nos concitoyens, bien généreux de nous avoir fourni toutes ces informations:**
+
+::: column-screen
+![](images/rp2019-BINC-03.pdf){fig-align="center" width="1450" height="2100"}
+:::
+
+**Voila, on n'a plus qu'à analyser tout ça ...**
+
+AVERTISSEMENT : En application de l'arrêté du 10 septembre 2021 relatif à la diffusion des résultats du recensement de la population de Nouvelle-Calédonie de 2019, les lieux d'habitation et de travail que ces fichiers contiennent ne sont donnés qu'au niveau de localisation de la province. En outre, ces fichiers ne comportent pas les données des questions 6, 7 et 8 du bulletin individuel relatives à la communauté et à la tribu d'appartenance des personnes.

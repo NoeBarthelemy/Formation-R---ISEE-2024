@@ -1,0 +1,85 @@
+---
+title: "Ou trouver de l'aide ?"
+format: html
+editor: visual
+sidebar: false
+---
+
+TOUS les utilisateurs de R rencontrent de temps en temps des problèmes. La différence entre les bons et les moins bons se fait avec la capacité à trouver les ressources pour résoudre ce problème **rapidement**.
+
+Souvenez vous donc : Vous **n'avez pas à apprendre quoi que ce soit par coeur sur R**.\
+Il faut simplement savoir ou chercher (et c'est vrai pour l'usage de beaucoup d'outils informatiques).
+
+Voici une liste de liens qui vous aideront à résoudre vos problèmes.
+
+1.  **La COMARSSS !**
+
+    Vous avez la chance d'avoir une communauté apprenante dédiée à l'utilisation de R au sein de l'ISEE. Il est très probable que vous y trouviez les réponses à vos questions, et même plus encore !
+
+2.  **R Documentation officielle :**
+
+    -   [Site officiel de R](https://www.r-project.org/): La documentation officielle est une ressource essentielle pour comprendre les fonctionnalités de base de R.
+
+3.  **RStudio Community :**
+
+    -   [RStudio Community](https://community.rstudio.com/): Un forum où vous pouvez poser des questions, partager des connaissances et interagir avec d'autres utilisateurs de R et RStudio.
+
+4.  **Stack Overflow :**
+
+    -   [R sur Stack Overflow](https://stackoverflow.com/questions/tagged/r): Une communauté active où les programmeurs posent des questions et partagent leurs connaissances. Assurez-vous de consulter les questions déjà posées avant de poster la vôtre.
+
+5.  **Coursera et DataCamp :**
+
+    -   [Coursera - R Programming](https://www.coursera.org/learn/r-programming)
+
+    -   [DataCamp - R Courses](https://www.datacamp.com/courses/tech:r): Ces plateformes offrent des cours en ligne sur R. Les forums de discussion associés à ces cours peuvent être utiles pour obtenir de l'aide.
+
+6.  **GitHub :**
+
+    -   [Dépôt GitHub de R](https://github.com/rstudio/r): Vous pouvez trouver des packages R, des scripts et des problèmes connus sur le dépôt GitHub officiel de R.
+
+7.  **Cross Validated :**
+
+    -   [Cross Validated](https://stats.stackexchange.com/): Un site de questions-réponses dédié à la statistique, où vous trouverez également des questions liées à R.
+
+8.  **R-bloggers :**
+
+    -   [R-bloggers](https://www.r-bloggers.com/): Une agrégation de blogs sur R, où vous pouvez trouver des articles, des tutoriels et des astuces.
+
+9.  **Réseaux sociaux :**
+
+    -   Les groupes et les pages liés à R sur des plateformes telles que Twitter, LinkedIn et Facebook peuvent également être des sources utiles d'information et de support.
+
+Voici également une liste de lien intéressants, collectés ça et la ...
+
+**Utilisation de R studio :**
+
+-   [RStudio IDE :: Cheatsheet](https://rstudio.github.io/cheatsheets/html/rstudio-ide.html?_gl=1*1x39n9r*_ga*MjAwMzE0NDI0MC4xNjk0MDU0MDkx*_ga_2C0WZ1JHG0*MTY5Njg5NDk3Ni4zLjEuMTY5Njg5NTU5NS4wLjAuMA.. "https://rstudio.github.io/cheatsheets/html/rstudio-ide.html?_gl=1*1x39n9r*_ga*mjawmze0ndi0mc4xnjk0mdu0mdkx*_ga_2c0wz1jhg0*mty5njg5ndk3ni4zljeumty5njg5ntu5ns4wljauma..") 
+
+-   [23 RStudio Tips, Tricks, and Shortcuts \| R-bloggers](https://www.r-bloggers.com/2020/06/23-rstudio-tips-tricks-and-shortcuts/ "https://www.r-bloggers.com/2020/06/23-rstudio-tips-tricks-and-shortcuts/") 
+
+**Utilisation de tidyverse :**  
+
+-   [Introduction à R et au tidyverse - 6  Le tidyverse (juba.github.io)](https://juba.github.io/tidyverse/06-tidyverse.html "https://juba.github.io/tidyverse/06-tidyverse.html") 
+
+-   [Data tidying with tidyr :: Cheatsheet (rstudio.github.io)](https://rstudio.github.io/cheatsheets/html/tidyr.html?_gl=1*no4z1d*_ga*MjAwMzE0NDI0MC4xNjk0MDU0MDkx*_ga_2C0WZ1JHG0*MTY5Njg5NDk3Ni4zLjEuMTY5Njg5NTU5NS4wLjAuMA.. "https://rstudio.github.io/cheatsheets/html/tidyr.html?_gl=1*no4z1d*_ga*mjawmze0ndi0mc4xnjk0mdu0mdkx*_ga_2c0wz1jhg0*mty5njg5ndk3ni4zljeumty5njg5ntu5ns4wljauma..") 
+
+-   [Data transformation with dplyr :: Cheatsheet (rstudio.github.io)](https://rstudio.github.io/cheatsheets/html/data-transformation.html?_gl=1*no4z1d*_ga*MjAwMzE0NDI0MC4xNjk0MDU0MDkx*_ga_2C0WZ1JHG0*MTY5Njg5NDk3Ni4zLjEuMTY5Njg5NTU5NS4wLjAuMA.. "https://rstudio.github.io/cheatsheets/html/data-transformation.html?_gl=1*no4z1d*_ga*mjawmze0ndi0mc4xnjk0mdu0mdkx*_ga_2c0wz1jhg0*mty5njg5ndk3ni4zljeumty5njg5ntu5ns4wljauma..") 
+
+**Visualisation de données :**
+
+-   [Data visualization with ggplot2 :: Cheat Sheet (rstudio.github.io)](https://rstudio.github.io/cheatsheets/html/data-visualization.html?_gl=1*no4z1d*_ga*MjAwMzE0NDI0MC4xNjk0MDU0MDkx*_ga_2C0WZ1JHG0*MTY5Njg5NDk3Ni4zLjEuMTY5Njg5NTU5NS4wLjAuMA.. "https://rstudio.github.io/cheatsheets/html/data-visualization.html?_gl=1*no4z1d*_ga*mjawmze0ndi0mc4xnjk0mdu0mdkx*_ga_2c0wz1jhg0*mty5njg5ndk3ni4zljeumty5njg5ntu5ns4wljauma..") 
+
+-   [Top 50 ggplot2 Visualizations - The Master List (With Full R Code) (r-statistics.co).](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html "http://r-statistics.co/top50-ggplot2-visualizations-masterlist-r-code.html") 
+
+-   [9 Les graphiques avec ggplot \| Exploration de données avec R (bookdown.org)](https://bookdown.org/ael/rexplor/chap8.html "https://bookdown.org/ael/rexplor/chap8.html") 
+
+-   [How to Make Beautiful Charts with R and ggplot2 - Charles Bordet](https://www.charlesbordet.com/en/make-beautiful-charts-ggplot2/#iteration-7---add-annotations "https://www.charlesbordet.com/en/make-beautiful-charts-ggplot2/#iteration-7---add-annotations") 
+
+-   [How to make Data Visualizations THAT GO VIRAL (with ggplot2 in R) \| R-bloggers](https://www.r-bloggers.com/2023/08/how-to-make-data-visualizations-that-go-viral-with-ggplot2-in-r/ "https://www.r-bloggers.com/2023/08/how-to-make-data-visualizations-that-go-viral-with-ggplot2-in-r/") 
+
+**R markdown :**  
+
+-   [Introduction to R Markdown (rstudio.com)](https://rmarkdown.rstudio.com/articles_intro.html "https://rmarkdown.rstudio.com/articles_intro.html") 
+
+-   [rmarkdown :: Cheatsheet (rstudio.github.io)](https://rstudio.github.io/cheatsheets/html/rmarkdown.html?_gl=1*1x39n9r*_ga*MjAwMzE0NDI0MC4xNjk0MDU0MDkx*_ga_2C0WZ1JHG0*MTY5Njg5NDk3Ni4zLjEuMTY5Njg5NTU5NS4wLjAuMA.. "https://rstudio.github.io/cheatsheets/html/rmarkdown.html?_gl=1*1x39n9r*_ga*mjawmze0ndi0mc4xnjk0mdu0mdkx*_ga_2c0wz1jhg0*mty5njg5ndk3ni4zljeumty5njg5ntu5ns4wljauma..") 

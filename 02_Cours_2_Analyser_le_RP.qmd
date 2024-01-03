@@ -1,0 +1,153 @@
+---
+title: "Formation R - Module 2 : Analyse du RP"
+author: "Noé Barthelemy"
+format: html
+editor: visual
+execute: 
+  eval: TRUE
+---
+
+```{r, echo= FALSE}
+library(here)
+library(readr)
+library(ggplot2)
+library(tidyverse)
+here()
+```
+
+# Introduction
+
+# Importation des données
+
+Chargeons les données du RP 2019.
+
+Sur le site de l'ISEE, les données sont divisées en 4 fichiers :
+
+1.  Province des Îles
+
+2.  Province Nord
+
+3.  Province Sud 1/2
+
+4.  Province Sud 2/2
+
+J'importe donc les données avec la fonction read_delim. Notez qu'il existe PLEIN de fonctions d'importation dans R.\
+Aucun intêret de les connaitre par coeur, faites plutôt une recherche internet selon le type de fichier à importer.
+
+```{r}
+RP2019NC_OD_ind_Iles <- readr::read_delim(here("..", "02_donnees", "RP2019NC_OD_ind_Iles.csv"), 
+    delim = ";", escape_double = FALSE, trim_ws = TRUE)
+
+RP2019NC_OD_ind_Nord <- readr::read_delim(here("..", "02_donnees", "RP2019NC_OD_ind_Nord.csv"), 
+    delim = ";", escape_double = FALSE, trim_ws = TRUE)
+
+RP2019NC_OD_ind_Sud1 <- readr::read_delim(here("..", "02_donnees", "RP2019NC_OD_ind_Sud1.csv"), 
+    delim = ";", escape_double = FALSE, trim_ws = TRUE)
+
+RP2019NC_OD_ind_Sud2 <- readr::read_delim(here("..", "02_donnees", "RP2019NC_OD_ind_Sud2.csv"), 
+    delim = ";", escape_double = FALSE, trim_ws = TRUE)
+```
+
+Voila nos données chargées ! Maintenant, on doit les compiler en un seul jeu de données. Je le fais avec la fonction Rbind, qui combine des objets par lignes (en gros, il les ajoute bout-a-bout les uns aux autres ! L'équivalent existe pour ajouter des colonnes et non pas des lignes (cbind).
+
+```{r}
+RP2019NC_OD_ind_3Provinces <- rbind(RP2019NC_OD_ind_Iles, RP2019NC_OD_ind_Nord, RP2019NC_OD_ind_Sud1, RP2019NC_OD_ind_Sud2)
+
+```
+
+# Objectif 1 : Quelles nationalités ?
+
+Pour le recensement 2024, je dois créer une liste des 10 nationalités les plus communes en Nouvelle-Calédonie (hors nationalité Française). Je dois donc analyser les pays dont proviennent les concitoyens qui ont répondu au recensement !
+
+Voyons voir !
+
+```{r}
+ggplot(RP2019NC_OD_ind_3Provinces) +
+ aes(x = CPAYSN) +
+ geom_histogram(bins = 30L, fill = "#112446") +
+ labs(x = "Pays (CPAYSN)", y = "Total", title = "Histogramme des pays d'origine des habitants de NC") +
+ theme_minimal()
+```
+
+On y comprend rien ! Dans notre documentation de données on peut voir :
+
+::: callout-note
+CPAYSN -- Code pays de naissance
+
+(longueur : 3 ; type : caractère)
+
+Code Insee du pays de naissance (se référer aux 3 derniers chiffres du code).
+
+Consulter la codification des pays et territoires étrangers : https://www.insee.fr/fr/information/2028273
+:::
+
+J'ai donc été sur le site de l'INSEE récuperer la nomenclature. Importons la, joignons la à nos données et mettons à jour ce graphique.
+
+```{r}
+Classification_pays_INSEE <- read_table(here("..", "02_donnees", "Classification_pays_INSEE.txt")) %>% 
+  # Je supprime ici tous les charactères non numériques.
+  mutate(Code = as.numeric(str_replace_all(Code, "[^0-9]", ""))) %>% 
+  # Et on enlève les 99 au début du code pour s'adapter à notre jeu de données.
+  mutate(Code = Code - 99000)
+
+
+head(Classification_pays_INSEE)
+```
+
+Faisons la jointure avec left_join.
+
+Bon, mon ordinateur n'étant pas une machine de guerre, je vais d'abord vérifier la taille de notre fichier.
+
+```{r}
+nrow(RP2019NC_OD_ind_3Provinces)
+```
+
+Ouille ! On va donc enlever toutes les lignes d'invidus pour lesquels il n'y a pas de pays de naissance afin de faciliter les calculs.
+
+```{r}
+RP2019NC_OD_ind_3Provinces_NesEtranger <- RP2019NC_OD_ind_3Provinces %>% 
+  # Filtrer les données manquantes (NA) dans la variable CPAYSN
+  filter(., !is.na(CPAYSN)) %>% 
+  # Joindre la nomenclature des pays de l'INSEE.
+  left_join(., Classification_pays_INSEE, by = c("CPAYSN" = "Code")) %>% 
+  # Et on supprime tous les individus en doublons qui auraient pu être crées par le left_join. 
+  distinct(., ID , .keep_all = T) %>% 
+  # Et on sélectionne les variables d'intérêt : 
+  select(., ID, CPAYSN, Continent, Pays)
+```
+
+Ce qui nous fait un jeu de données bien plus petit :
+
+```{r}
+nrow(RP2019NC_OD_ind_3Provinces_NesEtranger)
+```
+
+Faisons maintenant de beaux graphiques sur les nationalités de naissance de nos concitoyens !
+
+```{r}
+library(grid)
+library(shadowtext)
+
+# On résume les chiffres par pays 
+Nationalites_RP_2019 <- RP2019NC_OD_ind_3Provinces_NesEtranger %>% 
+  group_by(., Pays) %>% 
+  mutate(., Count = n()) %>% 
+  distinct(., Pays, .keep_all = T) %>% 
+  # On enlève les pays avec moins de 10 personnes
+  filter(., Count > 0)
+
+# The colors
+BLUE <- "#076fa2"
+RED <- "#E3120B"
+BLACK <- "#202020"
+GREY <- "grey50"
+
+plt <- ggplot(Nationalites_RP_2019) +
+  geom_col(aes(Count, reorder(Pays, -Count)), fill = BLUE, width = 0.6)+
+  labs(title = "Nombre de personnes recensées nées à l'étranger, par pays, \n au recensement de 2019",
+       x = "Pays",
+       y = "Nombre de personnes") 
+
+
+plt
+```

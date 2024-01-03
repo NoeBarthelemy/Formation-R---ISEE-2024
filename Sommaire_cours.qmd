@@ -1,0 +1,9 @@
+---
+title: "Sommaire des cours"
+format: html
+editor: visual
+execute: 
+  eval: TRUE
+---
+
+Voici un sommaire tout à fait sommaire.

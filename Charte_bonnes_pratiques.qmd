@@ -1,0 +1,14 @@
+---
+title: "Charte_bonnes_pratiques"
+format: html
+editor: visual
+sidebar: false
+---
+
+Vous trouverez cette fiche en PDF dans la COMARSSS également !
+
+Elle est très dense, mais prenez le temps de la lire pour vous mettre à la page sur les bonnes pratiques de l'usage de R à l'ISEE.
+
+::: column-screen
+![](images/Charte_bonnes_pratiques_R_V1.4.pdf){fig-align="center" width="1450" height="2100"}
+:::

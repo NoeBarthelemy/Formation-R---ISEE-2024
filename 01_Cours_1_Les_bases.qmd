@@ -1,0 +1,85 @@
+---
+title: "Formation R - Module 1 : Les bases"
+author: "Noé Barthelemy"
+format: html
+editor: visual
+execute: 
+  eval: TRUE
+---
+
+```{r, echo= FALSE, eval=FALSE}
+library(here)
+here()
+```
+
+# Introduction
+
+Bienvenue dans le Module 1 de notre formation R, dédié aux fondamentaux de ce langage de programmation puissant dédié à l'analyse statistique et à la manipulation de données. En tant que statisticien au sein de l'Institut des Statistiques et des Études Économiques (ISEE), vous êtes sur le point d'acquérir des compétences essentielles qui vous permettront de maîtriser R et d'exploiter son potentiel exceptionnel.
+
+Dans ce module, nous allons découvrir LES BASES de R et Rstudio. Il est donc destiné aux débutants !
+
+Prenez le temps d'explorer, posez des questions (sur la Communauté apprenante ou directement à votre référent R !) et surtout, pratiquez autant que possible.
+
+# I - R et Rstudio, c'est quoi en fait ?
+
+Imaginez R comme une boîte à outils spéciale conçue pour travailler avec des données et effectuer des analyses statistiques. C'est un langage de programmation que vous pouvez utiliser pour dire à votre ordinateur quoi faire avec vos informations. Tout simplement.
+
+Si vous avez une grande quantité de données à trier, analyser ou visualiser, R sera votre meilleur ami !
+
+Pensez à R Studio comme à un bureau bien organisé où vous pouvez utiliser R de manière plus conviviale. Il offre une interface utilisateur qui facilite l'écriture de vos instructions et la visualisation des résultats.
+
+## Pourquoi je devrais utiliser R ?
+
+-   **R est gratuit et open source !** Vous pourrez donc l'utiliser partout, et il est personnalisable.
+
+-   **La commaunauté** de R est GIGANTESQUE et experte. Donc, dès que vous avez un problème, vous trouverez une réponse sur internet.
+
+-   **Les packages** : Grâce à sa communauté, R bénéficie des milliers de packages, qui ajoutent des fonctionnalités spécifiques. On peut (presque) TOUT faire avec R.
+
+-   **La reproductibilité** : Une analyse rigoureuse, c'est celle qu'on peut reproduire à l'identique, et modifier à l'envie. Grâce aux scripts, R permet cela.
+
+-   **La puissance** : R est extrêmement puissant pour les calculs statistiques.
+
+-   **Visualisation de Données :** R excelle dans la création de graphiques et de visualisations de données de qualité professionnelle. Vous pouvez créer une grande variété de graphiques pour explorer et présenter vos résultats.
+
+## **R a bien des inconvénients, non ?**
+
+1.  **Courbe d'apprentissage :** Pour les débutants, R peut avoir une courbe d'apprentissage abrupte, en particulier si vous n'avez pas d'expérience en programmation. Cependant, cela peut être surmonté avec la pratique et l'utilisation régulière (et en allant au bout de ce tutoriel !).
+
+2.  **Interface Utilisateur :** Bien que R Studio facilite l'utilisation de R, certains débutants peuvent trouver l'interface un peu intimidante au début, surtout s'ils ne sont pas habitués à la programmation. Vous verrez qu'elle est finalement assez simple.
+
+3.  **Documentation dispersée :** La documentation de R est souvent disséminée à travers diverses sources en ligne, ce qui peut rendre la recherche d'informations spécifiques parfois un peu complexe. Mais au final, on s'en sors très bien, vous verrez !
+
+## Pourquoi ne pas simplement utiliser Excel ?
+
+C'est la remarque standard ! En effet, Excel est un bel outil, puissant également, et abordable **dans ses fonctions de base**. Si vous n'utilisez Excel que pour copier coller quelques données et faire un tableau à l'occasion, vous n'avez probablement pas besoin de R. De plus, ces outils sont **complémentaires**, on ne les utilisera pas pour faire les mêmes choses.
+
+Cependant, après quelques efforts à l'apprentissage, R vous permettra de faire bien plus de choses que Excel, de manière plus intuitive. En pratiquant l'analyse de données, vous atteindrez **très vite** vos limites avec Excel (à moins d'y passer des nuits entières). En revanche, la plupart des utilisateurs de R n'atteindront jamais de leur vie les limites de l'outil en termes de puissances et de créativité.
+
+Au final, vous ferez plus de choses, vous les ferez mieux, et plus rapidement.
+
+Convaincus ?
+
+# II - Créer son premier projet dans Rstudio.
+
+## Présentation de l'environnement Rstudio :
+
+![Voici l'interface de Rstudio (crédit en suivant le lien)](images/interface_Rstudio.png)
+
+-   L'*Editeur* pour éditer votre code, enregistré dans des fichiers
+
+-   La *Console* pour exécuter des lignes de code, écrites ici ou depuis le fichier source ouvert dans l'éditeur
+
+-   L'*Environment* : Les éléments/objets R que vous aurez créés lors de l'exécution du code. Et d'autres onglets dont la connexion à vos bases de données notamment.
+
+-   L'onglet *Files* pour la navigation dans les dossiers, notamment celui de votre projet. *Plots* pour l'affichage de graphique selon votre utilisation de vos scripts. *Packages* pour la liste des packages déjà installés sur la machine. *Help* pour l'aide des fonctions. *Viewer* pour afficher le contenu de pages HTML créées dans vos scripts.
+
+# III - Mon premier script R
+
+# IV - Les opérations de bases en R
+
+## 
+
+# Sources
+
+-   [Débuter avec R et RStudio - ThinkR - Certification & Formation langage R](https://thinkr.fr/debuter-avec-r-et-rstudio/#Presentation_de_linterface_de_RStudio)
