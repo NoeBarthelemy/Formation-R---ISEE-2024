@@ -12,6 +12,8 @@ library(here)
 here()
 ```
 
+<br>
+
 # Introduction
 
 Bienvenue dans le Module 1 de notre formation R, dédié aux fondamentaux de ce langage de programmation puissant dédié à l'analyse statistique et à la manipulation de données. En tant que statisticien au sein de l'Institut des Statistiques et des Études Économiques (ISEE), vous êtes sur le point d'acquérir des compétences essentielles qui vous permettront de maîtriser R et d'exploiter son potentiel exceptionnel.
@@ -19,6 +21,8 @@ Bienvenue dans le Module 1 de notre formation R, dédié aux fondamentaux de ce 
 Dans ce module, nous allons découvrir LES BASES de R et Rstudio. Il est donc destiné aux débutants !
 
 Prenez le temps d'explorer, posez des questions (sur la Communauté apprenante ou directement à votre référent R !) et surtout, pratiquez autant que possible.
+
+<br>
 
 # I - R et Rstudio, c'est quoi en fait ?
 
@@ -28,11 +32,13 @@ Si vous avez une grande quantité de données à trier, analyser ou visualiser, 
 
 Pensez à R Studio comme à un bureau bien organisé où vous pouvez utiliser R de manière plus conviviale. Il offre une interface utilisateur qui facilite l'écriture de vos instructions et la visualisation des résultats.
 
-## Pourquoi je devrais utiliser R ?
+<br>
+
+## I.I - Pourquoi je devrais utiliser R ?
 
 -   **R est gratuit et open source !** Vous pourrez donc l'utiliser partout, et il est personnalisable.
 
--   **La commaunauté** de R est GIGANTESQUE et experte. Donc, dès que vous avez un problème, vous trouverez une réponse sur internet.
+-   **La communauté** de R est GIGANTESQUE et experte. Donc, dès que vous avez un problème, vous trouverez une réponse sur internet.
 
 -   **Les packages** : Grâce à sa communauté, R bénéficie des milliers de packages, qui ajoutent des fonctionnalités spécifiques. On peut (presque) TOUT faire avec R.
 
@@ -42,7 +48,9 @@ Pensez à R Studio comme à un bureau bien organisé où vous pouvez utiliser R 
 
 -   **Visualisation de Données :** R excelle dans la création de graphiques et de visualisations de données de qualité professionnelle. Vous pouvez créer une grande variété de graphiques pour explorer et présenter vos résultats.
 
-## **R a bien des inconvénients, non ?**
+<br>
+
+## I.II - R a bien des inconvénients, non ?
 
 1.  **Courbe d'apprentissage :** Pour les débutants, R peut avoir une courbe d'apprentissage abrupte, en particulier si vous n'avez pas d'expérience en programmation. Cependant, cela peut être surmonté avec la pratique et l'utilisation régulière (et en allant au bout de ce tutoriel !).
 
@@ -50,7 +58,9 @@ Pensez à R Studio comme à un bureau bien organisé où vous pouvez utiliser R 
 
 3.  **Documentation dispersée :** La documentation de R est souvent disséminée à travers diverses sources en ligne, ce qui peut rendre la recherche d'informations spécifiques parfois un peu complexe. Mais au final, on s'en sors très bien, vous verrez !
 
-## Pourquoi ne pas simplement utiliser Excel ?
+<br>
+
+## I.III - Pourquoi ne pas simplement utiliser Excel ?
 
 C'est la remarque standard ! En effet, Excel est un bel outil, puissant également, et abordable **dans ses fonctions de base**. Si vous n'utilisez Excel que pour copier coller quelques données et faire un tableau à l'occasion, vous n'avez probablement pas besoin de R. De plus, ces outils sont **complémentaires**, on ne les utilisera pas pour faire les mêmes choses.
 
@@ -60,26 +70,473 @@ Au final, vous ferez plus de choses, vous les ferez mieux, et plus rapidement.
 
 Convaincus ?
 
+<br>
+
 # II - Créer son premier projet dans Rstudio.
 
-## Présentation de l'environnement Rstudio :
+## II.I - Créer un projet Rstudio
 
-![Voici l'interface de Rstudio (crédit en suivant le lien)](images/interface_Rstudio.png)
+Sur Rstudio, on fonctionne avec des projets. Pourquoi ?
 
--   L'*Editeur* pour éditer votre code, enregistré dans des fichiers
+1.  **Organisation :** Les projets permettent d'organiser vos fichiers, données et scripts au sein d'une structure cohérente, facilitant la gestion et la collaboration.
+
+2.  **Isolation :** Chaque projet a son propre environnement, isolant les dépendances spécifiques du projet et évitant les conflits entre différents projets.
+
+3.  **Gestion des fichiers :** Les projets facilitent la gestion des fichiers en fournissant une vue globale du projet, permettant une navigation et une recherche plus aisées.
+
+4.  **Reproductibilité :** En utilisant des projets, vous assurez une reproductibilité plus facile en encapsulant tous les éléments nécessaires à votre analyse au sein d'un seul environnement.
+
+5.  **Collaboration :** Les projets simplifient la collaboration en regroupant tous les éléments nécessaires et en facilitant le partage avec d'autres utilisateurs.
+
+Pour en créer un, rien de plus facile :
+
+1.  Allez dans Fichiers --\> Nouveau projet.
+
+2.  Choisissez *New directory* (Nouveau dossier).
+
+3.  Choisissez *New project* (Nouveau projet).
+
+4.  Donnez lui un nom et choisissez où il sera stocké.
+
+<br><br>
+
+Maintenant, il va falloir organiser vos fichiers correctement.
+
+A l'ISEE, nous avons une norme **que vous devez respecter**, et vous la trouverez dans cette fiche des bonnes pratiques avec R et R studio : [Fiche des bonnes pratiques avec R et Rstudio](Charte_bonnes_pratiques.qmd) -- Pensez à la relire de temps en temps !
+
+En résumé, le projet doit comporter 4 dossiers :
+
+1.  **01_code** : Contient les scripts et autres fichiers directement liés au code.
+
+2.  **02_donnees** : Contient les données, la bibliographie, les dictionnaires de variables, etc.
+
+3.  **03_exports** : Tout ce qui est exporté du projet (Tableaux, figures, etc).
+
+4.  **04_rapports** : Contient les rapports d'analyse du projet et les fichiers associés.
+
+<br><br>
+
+**Autre astuce :** N'hésitez pas à fouiller dans les menus, notamment dans "Outils --\> Options de projet".\
+Vous y trouverez plein de moyens de configurer votre projet à votre convenance.
+
+<br>
+
+**Votre projet est prêt !** **Allons coder !**
+
+<br>
+
+## II.II - Présentation de l'environnement Rstudio :
+
+![Voici l'interface de Rstudio (crédit de l'image en suivant le lien)](images/interface_Rstudio.png)
+
+-   L'*Éditeur* pour éditer votre code, enregistré dans des fichiers
 
 -   La *Console* pour exécuter des lignes de code, écrites ici ou depuis le fichier source ouvert dans l'éditeur
 
--   L'*Environment* : Les éléments/objets R que vous aurez créés lors de l'exécution du code. Et d'autres onglets dont la connexion à vos bases de données notamment.
+-   L'*Environnement* : Les éléments/objets R que vous aurez créés lors de l'exécution du code. Et d'autres onglets dont la connexion à vos bases de données notamment.
 
--   L'onglet *Files* pour la navigation dans les dossiers, notamment celui de votre projet. *Plots* pour l'affichage de graphique selon votre utilisation de vos scripts. *Packages* pour la liste des packages déjà installés sur la machine. *Help* pour l'aide des fonctions. *Viewer* pour afficher le contenu de pages HTML créées dans vos scripts.
+-   L'onglet *Files* (ou Fichiers) pour la navigation dans les dossiers, notamment celui de votre projet. *Plots* pour l'affichage de graphique selon votre utilisation de vos scripts. *Packages* (ou Paquets) pour la liste des packages déjà installés sur la machine. *Help* pour l'aide des fonctions. *Viewer* pour afficher le contenu de pages HTML créées dans vos scripts.
 
 # III - Mon premier script R
 
+Il est temps de créer un script.
+
+En fait, tout code peut être tapé dans la console directement, comme lorsqu'on utilise une calculatrice. Le script permet de conserver toutes nos actions (calculs, imports de données, commentaires, etc), et de les ré-exécuter à l'envie !
+
+1.  En dessous de "fichier", en haut a gauche de l'interface de Rstudio, il y a un bouton qui symbolise une feuille blanche avec un + vert. Appuyez sur la petite flèche noire qui se trouve juste à sa droite : Vous voyez tous les types de créations que vous pouvez faire sur R !
+
+2.  Commençons par un script de type Rmarkdown.
+
+3.  Ajoutez un titre et votre nom en tant qu'auteur.ice.
+
+4.  Cliquez sur "OK" !
+
+<br>
+
+Le résultat devrait correspondre à ceci :
+
+![](images/PresentationRmarkdown-01.png){fig-align="center"}
+
+Ecrire un script Rmarkdown, c'est très simple : C'est du texte, et du code.\
+On écris le texte directement sur le script (on peut mettre des titres, des listes, etc., voir encadré 1 dans l'image ci-dessus).\
+Quand on veut mettre du code, on appuie sur le bouton encerclé en rouge (2) et on choisis le langage souhaité.\
+Ici, on choisis R, mais notez la diversité de langages qui peuvent cohabiter au sein d'un même script.
+
+<br>
+
+C'est fait ?
+
+Voila, vous avez créé un *chunk*.\
+C'est dans ces encadrés que vous écrirez votre code. Vous pouvez lancer le code en appuyant sur la flèche verte en haut à droite du chunk.
+
+Maintenant, pensez à sauvegarder votre script (ctrl + s), et placez le dans votre dossier "01_code".
+
+Gérer ses scripts sur Rmarkdown permet de faire énormément de choses comme exporter vos scripts en PDF ou Word (avec les figures, les commentaires et le code !), et bien d'autres choses.\
+Suivez le cours N°3 pour en savoir plus : [Cours N°3 : Rmarkdown](03_Cours_3_Rmarkdown.qmd)
+
+<br>
+
 # IV - Les opérations de bases en R
 
-## 
+## IV.I - Les opérateurs
+
+Les opérateurs de R ressemblent à ceux d'autres langages de programmation. Certains opérateurs arithmétiques comprennent :
+
+-   \+ addition
+
+-   \- soustraction
+
+-   \* multiplication
+
+-   / division
+
+-   \^ exponentiation
+
+Les opérateurs logiques comprennent :
+
+-   \> supérieur à
+
+-   \>= supérieur ou égal à
+
+-   == strictement égal à
+
+-   != non égal à
+
+Essayons ! Créez un chunk avec le bouton, ou en entrant le raccourci "ctrl + alt + i".
+
+Dans ce chunk, écrivez "1+2" et appuyez sur la flèche verte.
+
+```{r}
+1+2
+```
+
+Voila ! Le résultat s'affiche sous le chunk.\
+Si on écris "1 == 2" on obtient "FALSE". Ben oui, 1 n'est pas égal à 2.
+
+```{r}
+1 == 2 
+
+# Dans les chunks, vous pouvez écrire des commentaires tant qu'ils sont précédés d'un #.
+```
+
+<br>
+
+## IV.II - Les variables
+
+Les variables sont utilisées pour stocker des données. Leur valeur peut être modifiée, utilisée et manipulée selon les besoins.\
+Un nom unique attribué à une variable (fonction ou objet également) est appelé identifiant.
+
+Pour déclarer une variable, nous devons lui assigner un nom.\
+Pour ça on utilise l'opérateur \<- .
+
+Essayons !
+
+```{r}
+my_variable <- 10
+```
+
+> Comment nommer les variables dans R ?
+>
+> 1.  **Conventions de nommage :**
+>
+>     -   Utilisez des noms descriptifs qui reflètent la nature de la variable.
+>
+>     -   Évitez d'utiliser des noms trop courts ou trop longs. Optez pour une longueur de nom qui offre une clarté suffisante sans être excessive.
+>
+> 2.  **Utilisation de lettres minuscules :**
+>
+>     -   Préférez les lettres minuscules pour les noms de variables. Par exemple, utilisez **`my_variable`** plutôt que **`My_Variable`**.
+>
+> 3.  **Utilisation de traits de soulignement :**
+>
+>     -   Utilisez des traits de soulignement (**`_`**) pour séparer les mots dans un nom de variable. Par exemple, **`my_variable`**.
+>
+> 4.  **Éviter les noms réservés :**
+>
+>     -   Évitez d'utiliser des noms qui sont déjà réservés pour des fonctions ou des objets en R.\
+>         Par exemple, ne nommez pas une variable **`if`** ou **`mean`**, car ce sont des noms de fonctions intégrées.
+>
+> 5.  **Éviter les caractères spéciaux :**
+>
+>     -   Évitez d'utiliser des caractères spéciaux tels que **`$`**, **`%`**, ou **`&`** dans les noms de variable.\
+>         Cela peut causer des problèmes de lecture et d'interprétation.
+>
+> 6.  **Utilisation de noms significatifs :**
+>
+>     -   Choisissez des noms qui ont un sens dans le contexte de votre programme.\
+>         Évitez les noms génériques comme **`temp`** ou **`x`** sauf s'ils sont appropriés pour une utilisation temporaire.
+
+Maintenant, créons une deuxième variable et additionnons la à la première.
+
+```{r}
+my_variable2 <- 10 
+
+my_variable + my_variable2
+```
+
+On peut stocker le résultat dans une nouvelle variable :
+
+```{r}
+Total <-  my_variable + my_variable2
+```
+
+\# Pour voir le contenu d'une variable, écrivez simplement son nom !
+
+```{r}
+Total
+```
+
+<br>
+
+## IV.III - Les types de variables et d'objets
+
+Les types de variables et d'objets sur R, c'est **super important**. En les connaissant, vous comprendrez mieux vos données et ce que vous pouvez faire avec.
+
+Pour connaitre le type d'une variable, tapez :
+
+```{r}
+class(my_variable)
+```
+
+Essayons d'autres formats de variables :
+
+```{r}
+# Variable de type "character" 
+
+variable_texte <- "Vive le vent d'hiver"
+class(variable_texte)
+```
+
+R propose plusieurs types de variables, chacun ayant ses spécificités.\
+Voici quelques-uns des types de variables couramment utilisés dans R :
+
+1.  **Numeric** (numérique) :
+
+-   Représente les nombres réels.
+
+-   Exemple : \`x \<- 42.5\`.
+
+2.  **Integer** (entier) :
+
+-   Représente les nombres entiers.
+
+-   Exemple : \`y \<- 42L\` (la lettre "L" indique que c'est un entier).
+
+3.  **Character** (caractère) :
+
+-   Représente des chaînes de caractères.
+
+-   Exemple : \`z \<- "Bonjour"\`.
+
+4.  **Logical** (logique) :
+
+-   Représente des valeurs logiques (Vrai/Faux).
+
+-   Exemple : \`flag \<- TRUE\`.
+
+5.  **Factor** (facteur) :
+
+-   Utilisé pour représenter des variables catégorielles.
+
+-   Exemple : \`gender \<- factor(c("Homme", "Femme", "Homme"))\`.
+
+6.  **Date** (date) :
+
+-   Représente des dates.
+
+-   Exemple : \`dob \<- as.Date("1990-01-01")\`.
+
+7.  **Time** (heure) :
+
+-   Représente des heures.
+
+-   Exemple : \`timestamp \<- as.POSIXct("2023-01-01 12:30:00")\`.
+
+Chaque type de variable a ses propres opérations et méthodes spécifiques. Par exemple, les opérations arithmétiques sont généralement utilisées avec des variables numériques, tandis que les opérations logiques sont utilisées avec des variables logiques.
+
+Il est important de comprendre les types de variables car cela affecte la manière dont les données sont stockées en mémoire et la manière dont les opérations sont effectuées.
+
+Par exemple, tapez "my_variable + variable_texte" dans un chunk et exécutez-le.\
+\
+Hé oui, on ne peut pas additionner une variable numérique avec une variable non numérique !
+
+<br>
+
+## IV.IV - Les vecteurs
+
+Aaaah ... les vecteurs. Il peut être compliqué de comprendre leur intérêt et leur nature, alors allons y pas à pas :
+
+Imaginez que vous ayez une boîte dans laquelle vous voulez stocker plusieurs valeurs, comme des nombres. Cette boîte est votre vecteur.
+
+1.  **Stockage ordonné :** Un vecteur vous permet de stocker plusieurs valeurs de manière ordonnée. Par exemple, vous pouvez avoir un vecteur de notes pour chaque élève dans une classe.
+
+    ```{r}
+    # Exemple de vecteur de notes
+    notes <- c(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
+    ```
+
+2.  **Accès facile aux éléments :** Comme les éléments sont stockés de manière ordonnée, vous pouvez facilement accéder à chaque note en utilisant sa position dans le vecteur. Par exemple, la première note est à la position 1, la deuxième à la position 2, et ainsi de suite.
+
+    ```{r}
+    #Afficher le 15ème élément grâce aux crochets.
+    notes[15]
+    ```
+
+3.  **Opérations sur l'ensemble :** Vous pouvez effectuer des opérations sur l'ensemble des notes en une seule fois. Par exemple, vous pourriez vouloir calculer la moyenne de toutes les notes. Avec un vecteur, cela se fait facilement.
+
+    ```{r}
+    # Crééons un autre vecteur de notes. La distribution de ces notes sera "normale" (au sens statistique), grâce à la fonction runif() et la définition de quelques paramètres.
+    # Prenons 150 notes
+
+    # Définir les paramètres
+    n <- 150                # Nombre d'observations
+    borne_inf <- 0          # La note minimale c'est 0
+    borne_sup <- 20         # La note maximale c'est 20
+    moyenne_val <- 12.5     # Moyenne des notes
+    ecart_type_val <- 9     # Écart type
+
+    # Générer un échantillon aléatoire
+    uniforme_aleatoire <- runif(n)
+    echantillon_aleatoire <- moyenne_val + ecart_type_val * qnorm(uniforme_aleatoire)
+
+    # Tronquer les valeurs pour qu'elles soient dans la plage spécifiée
+    echantillon_aleatoire <- pmax(pmin(echantillon_aleatoire, borne_sup), borne_inf)
+
+    # Calcul de la moyenne des notes
+    moyenne_echantillon <- mean(echantillon_aleatoire)
+    moyenne_echantillon
+    ```
+
+    Le vecteur permet de traiter l'ensemble des données d'un coup, ce qui simplifie les calculs.
+
+4.  **Facilité de manipulation :** Vous pouvez ajouter, supprimer ou modifier des notes dans votre vecteur en fonction de l'évolution des données.
+
+    ```{r}
+    # Ajout d'une nouvelle note 
+    notes <- c(notes, 19)
+    ```
+
+Le vecteur offre une flexibilité pour gérer dynamiquement les données.
+
+En résumé, un vecteur en R est comme une boîte qui vous permet de stocker et d'organiser des données de manière ordonnée, avec la possibilité d'accéder facilement à chaque élément, de réaliser des opérations sur l'ensemble et de manipuler les données de manière souple. C'est un outil puissant pour travailler avec des ensembles de données dans R.
+
+<br>
+
+# V - Les Packages
+
+## V.I - R, le couteau suisse de la statistique
+
+Les *packages* R sont des modules complémentaires qui ajoutent des fonctionnalités à R. Ces package sont crées par la communauté de R, qui les partage alors gratuitement. Souvent, un *package* répond aux besoins d'un domaine précis. Par exemple :
+
+-   **dplyr :** Manipulation de données. Offre des fonctions simples et cohérentes pour filtrer, trier et agréger des données.
+
+-   **ggplot2 :** Visualisation de données. Permet de créer des graphiques élégants et hautement personnalisables.
+
+-   **tidyr :** Facilite la manipulation et la transformation de données en suivant les principes de la "tidy data".
+
+-   **caret :** Facilite l'entraînement de modèles prédictifs en fournissant une interface unifiée pour différents algorithmes.
+
+-   **randomForest :** Machine Learning. Implémente l'algorithme Random Forest pour la classification et la régression.
+
+-   **shiny :** Permet de créer des applications web interactives directement à partir de R.
+
+-   **lubridate :** Manipulation de dates. Simplifie la manipulation et le traitement des objets de date et d'heure.
+
+-   **magrittr :** Opérateurs pipe (%\>%). Facilite la composition de fonctions en utilisant des opérateurs pipe pour améliorer la lisibilité du code.
+
+-   **stringr :** Manipulation de chaînes de caractères. Fournit des fonctions pour travailler efficacement avec des chaînes de caractères.
+
+-   **tidyverse :** **LE MEILLEUR PACKAGE**. Regroupe plusieurs *packages*, dont dplyr, ggplot2, tidyr, etc., pour faciliter l'analyse de données en suivant les principes de "tidy data". Ce package (merci *Hadley Wickham*) est incontournable et a rendu R bien plus facile à utiliser qu'auparavant.
+
+Ce sont des exemples, parmi les **20 248 packages disponibles en 2023**. Chaque *package* apporte son lot de fonctions. Ensemble, ils permettent à R d'effectuer quasiment tout type d'analyse, de la génétique des populations à la cartographie, en passant par la finance internationale.
+
+Les trois plateformes pour trouver des packages sont :
+
+1.  [CRAN - The Comprehensive R Archive Network](https://cran.r-project.org/)
+
+2.  [Bioconductor - Open source software for Bioinformatics](https://bioconductor.org/)
+
+3.  [Github](https://github.com/)
+
+Il est important de noter que les packages ne sont généralement pas indépendants et peuvent dépendre d'autres packages pour certaines fonctionnalités, créant ainsi un réseau de dépendances entre eux.
+
+<br>
+
+## V.II - Télécharger en installer un *package*
+
+Un *package* s'installe très simplement :
+
+```{r, eval= FALSE}
+install.packages("ggplot2")
+```
+
+On peut aussi les gérer par l'onglet "*Packages*" du panneau en bas à droite de Rstudio.\
+Gérer les *packages*, c'est parfois (souvent) des prises de tête, alors, à l'ISEE, on fait le travail pour vous ! De fait, vous ne pouvez pas installer vos propres packages, il faudra passer par votre référent R (moi en 2024).
+
+## V.III - En savoir plus sur le contenu d'un *package*
+
+Pour en savoir plus sur un *package*, obtenir la liste des fonctions, des exemples d'usage etc, il suffit de taper "?*nomdupackage*" dans la console.\
+Ou alors, on peut taper son nom dans la barre de recherche de l'onglet packages.
+
+Par exemple :
+
+```{r}
+?DBI
+```
+
+Pour une fonction, c'est la même chose !
+
+```{r}
+?rnorm
+```
+
+## V.IV - Charger les *packages*
+
+Quand on écrit son script, on commence toujours par un *chunk* de chargement des packages. Comme on fait son sac pour aller au travail, on sélectionne ici tous les bons outils avant de démarrer. Si on doit en rajouter un plus tard, on le fera.
+
+On charge **toujours** les *packages* avec la fonction ***library***.
+
+Par exemple :
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(raster)
+# etc ...
+```
+
+Si vous oubliez de le faire, vous n'aurez tout simplement pas accès aux fonctions du *package* !
+
+<br>
+
+# VI - Les fonctions
+
+Essentiellement, tout en R est réalisé à l'aide de fonctions. Une fonction est un bloc de code écrit pour une tâche spécifique ou une série de tâches. Elle peut accepter des paramètres et peut retourner une valeur si définie.
+
+La structure d'une fonction est simple : Un nom, des arguments, et un corps.
+
+```{r, eval = FALSE}
+NOM <- function ( ARGUMENTS ) { CORPS }
+```
+
+Par exemple :
+
+```{r}
+# Définition de la fonction d'addition : Elle additionne !
+addition <- function(a, b) {
+  resultat <- a + b
+  return(resultat)
+}
+
+# Appel de la fonction avec des arguments
+Addition1 <- addition(a = 3, b = 5)
+
+# Affichage du résultat
+print(Addition1)
+```
+
+Prenez le temps de regarder : la fonction s'appelle **addition** a deux arguments, **a** et **b**. Dans son corps, on code le calcul de **a + b**, et le fait de **retourner** (return) le résultat. Une fois la fonction fermée, on "l'appelle" par son nom, en donnant les deux arguments entre parenthèse : **addition(a = 3, b = 5)**.
 
 # Sources
 
--   [Débuter avec R et RStudio - ThinkR - Certification & Formation langage R](https://thinkr.fr/debuter-avec-r-et-rstudio/#Presentation_de_linterface_de_RStudio)
+-   [Beginner's guide to R](https://www.educative.io/blog/r-tutorial-beginners-guide)

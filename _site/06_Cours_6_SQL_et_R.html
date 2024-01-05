@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Noé Barthelemy - ISEE">
+
+<title>Formation R - ISEE 2024 - Utiliser SQL dans R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Formation R - ISEE 2024</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./Sommaire_cours.html" rel="" target="" aria-current="page">
+ <span class="menu-text">La formation R</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Fonctions_utiles.html" rel="" target="">
+ <span class="menu-text">Fonctions utiles &amp; exemples</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Trouver_de_laide.html" rel="" target="">
+ <span class="menu-text">Besoin d’aide ?</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Charte_bonnes_pratiques.html" rel="" target="">
+ <span class="menu-text">Charte des bonnes pratiques (PDF)</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+    <div class="dropdown">
+      <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label=""><i class="bi bi-github"></i></a>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="quarto-navigation-tool-dropdown-0">
+          <li>
+            <a class="dropdown-item quarto-navbar-tools ms-auto-item" href="https://github.com/NoeBarthelemy">
+            Ma page github
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item quarto-navbar-tools ms-auto-item" href="https://github.com/NoeBarthelemy/Formation-R---ISEE-2024/tree/34caac27f3d72bfecaac51aeb44c894d4cbc45ff">
+            Code source du site
+            </a>
+          </li>
+      </ul>
+    </div>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_Cours_6_SQL_et_R.html">Cours N°6 : SQL &amp; R</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Sommaire_cours.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sommaire des cours</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Jeu_de_donnees_RP2019.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Jeu de données RP 2019</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_Cours_1_Les_bases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cours N°1 : Les bases</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_Cours_2_Analyser_le_RP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cours N°2 : Analyse du RP</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Cours_3_Rmarkdown.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cours N°3 : Rmarkdown</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Cours_4_Tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cours N°4 : Le Tidyverse</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Cours_5_DataViz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cours N°5 : Data Viz’</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_Cours_6_SQL_et_R.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Cours N°6 : SQL &amp; R</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#i-introduction" id="toc-i-introduction" class="nav-link active" data-scroll-target="#i-introduction">I) Introduction</a></li>
+  <li><a href="#ii-méthode-1-sql-dans-r-avec-le-package-dbi" id="toc-ii-méthode-1-sql-dans-r-avec-le-package-dbi" class="nav-link" data-scroll-target="#ii-méthode-1-sql-dans-r-avec-le-package-dbi">II) Méthode 1 : SQL dans R avec le package DBI</a>
+  <ul class="collapse">
+  <li><a href="#créer-une-bdd-sql-dans-r" id="toc-créer-une-bdd-sql-dans-r" class="nav-link" data-scroll-target="#créer-une-bdd-sql-dans-r">1) Créer une BDD SQL dans R</a></li>
+  <li><a href="#effectuer-une-requête-sql-dans-r-à-laide-dun-chunk-dédié." id="toc-effectuer-une-requête-sql-dans-r-à-laide-dun-chunk-dédié." class="nav-link" data-scroll-target="#effectuer-une-requête-sql-dans-r-à-laide-dun-chunk-dédié.">2) Effectuer une requête SQL dans R à l’aide d’un chunk dédié.</a></li>
+  <li><a href="#analyser-les-données-de-la-requête" id="toc-analyser-les-données-de-la-requête" class="nav-link" data-scroll-target="#analyser-les-données-de-la-requête">3) Analyser les données de la requête</a></li>
+  </ul></li>
+  <li><a href="#iii-méthode-2-sql-en-chunks" id="toc-iii-méthode-2-sql-en-chunks" class="nav-link" data-scroll-target="#iii-méthode-2-sql-en-chunks">III) Méthode 2 : SQL en chunks</a>
+  <ul class="collapse">
+  <li><a href="#effectuer-une-requête-sql-dans-r-à-laide-dun-chunk-dédié.-1" id="toc-effectuer-une-requête-sql-dans-r-à-laide-dun-chunk-dédié.-1" class="nav-link" data-scroll-target="#effectuer-une-requête-sql-dans-r-à-laide-dun-chunk-dédié.-1">1) Effectuer une requête SQL dans R à l’aide d’un chunk dédié.</a></li>
+  <li><a href="#analyser" id="toc-analyser" class="nav-link" data-scroll-target="#analyser">2) Analyser</a></li>
+  </ul></li>
+  <li><a href="#iv-méthode-3-sql-dplyr" id="toc-iv-méthode-3-sql-dplyr" class="nav-link" data-scroll-target="#iv-méthode-3-sql-dplyr">IV) Méthode 3 : SQL &amp; Dplyr !</a></li>
+  <li><a href="#v-exemple-sur-une-bdd-de-lisee" id="toc-v-exemple-sur-une-bdd-de-lisee" class="nav-link" data-scroll-target="#v-exemple-sur-une-bdd-de-lisee">V) Exemple sur une BDD de l’ISEE</a></li>
+  <li><a href="#vi-fermez-la-connection" id="toc-vi-fermez-la-connection" class="nav-link" data-scroll-target="#vi-fermez-la-connection">VI) Fermez la connection !</a></li>
+  <li><a href="#vii-liens-utiles" id="toc-vii-liens-utiles" class="nav-link" data-scroll-target="#vii-liens-utiles">VII) Liens utiles</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Utiliser SQL dans R</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Noé Barthelemy - ISEE </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="i-introduction" class="level1">
+<h1>I) Introduction</h1>
+<p>SQL c’est bien. R aussi. Pourquoi ne pas utiliser les deux en un seul endroit ? Ici, je vous montre <strong>3 méthodes pour utiliser SQL</strong> au sein de vos scripts dans Rstudio.</p>
+<p><strong>Je vous recommande la troisième méthode</strong>, qui permet d’utiliser <strong>dplyr</strong> directement sur une table d’une base de données :</p>
+<p><em>dplyr</em>, vous le savez surement, est une bibliothèque R qui offre une syntaxe cohérente et conviviale pour la manipulation de données, indépendamment de la source (cadres de données R, bases de données, etc.). Elle rend les opérations de manipulation de données plus simples et plus lisibles. Autrement dit, dplyr permet de travailler de manière similaire sur différentes sources de données, qu’il s’agisse de dataframes R, de bases de données ou d’autres sources. Cela peut faciliter le travail sur différentes plates-formes sans avoir à se soucier des différences de syntaxe SQL spécifiques à chaque système de gestion de base de données.</p>
+<p><br></p>
+<p><strong><em>Pourquoi ça me concerne ?</em></strong></p>
+<p>Pour les utilisateurs habitués à R, l’utilisation de dplyr offre une syntaxe plus familière et intuitive que le SQL. Vous pourrez ainsi regrouper l’entiereté de votre analyse en un seul script et la commenter, puis en faire un Rmarkdown ou un PDF. Cela facilitera significativement la collaboration avec vos collègues de l’ISEE ou d’ailleurs, et rendre votre travail reproductible et transparent !</p>
+</section>
+<section id="ii-méthode-1-sql-dans-r-avec-le-package-dbi" class="level1">
+<h1>II) Méthode 1 : SQL dans R avec le package DBI</h1>
+<section id="créer-une-bdd-sql-dans-r" class="level2">
+<h2 class="anchored" data-anchor-id="créer-une-bdd-sql-dans-r">1) Créer une BDD SQL dans R</h2>
+<p>Il y a plusieurs façons d’utiliser SQL dans R.</p>
+<p>Nous allons d’abord utiliser une manière assez directe. Pour cela, il nous faut des données. Prenons le jeu de données ‘mtcars’ intégré à R.</p>
+<p>En R, on peut déjà observer ce jeu de données :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"mtcars"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mtcars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   mpg cyl disp  hp drat    wt  qsec vs am gear carb
+Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mtcars_modif <span class="ot">&lt;-</span> mtcars</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mtcars_modif<span class="sc">$</span><span class="st">`</span><span class="at">car name</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">rownames</span>(mtcars_modif)  </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer une nouvelle colonne pour les noms des voitures</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<title>R: Motor Trend Car Road Tests</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer="" src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js" onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css">
+<div class="container">
+
+
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<tbody>
+<tr class="odd">
+<td>mtcars</td>
+<td style="text-align: right;">R Documentation</td>
+</tr>
+</tbody>
+</table>
+<section id="mtcars" class="level2">
+<h2 class="anchored" data-anchor-id="mtcars">Motor Trend Car Road Tests</h2>
+<section id="description" class="level3">
+<h3 class="anchored" data-anchor-id="description">Description</h3>
+<p>The data was extracted from the 1974 <em>Motor Trend</em> US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).</p>
+</section>
+<section id="usage" class="level3">
+<h3 class="anchored" data-anchor-id="usage">Usage</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mtcars</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="format" class="level3">
+<h3 class="anchored" data-anchor-id="format">Format</h3>
+<p>A data frame with 32 observations on 11 (numeric) variables.</p>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">[, 1]</td>
+<td style="text-align: left;">mpg</td>
+<td style="text-align: left;">Miles/(US) gallon</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">[, 2]</td>
+<td style="text-align: left;">cyl</td>
+<td style="text-align: left;">Number of cylinders</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">[, 3]</td>
+<td style="text-align: left;">disp</td>
+<td style="text-align: left;">Displacement (cu.in.)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">[, 4]</td>
+<td style="text-align: left;">hp</td>
+<td style="text-align: left;">Gross horsepower</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">[, 5]</td>
+<td style="text-align: left;">drat</td>
+<td style="text-align: left;">Rear axle ratio</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">[, 6]</td>
+<td style="text-align: left;">wt</td>
+<td style="text-align: left;">Weight (1000 lbs)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">[, 7]</td>
+<td style="text-align: left;">qsec</td>
+<td style="text-align: left;">1/4 mile time</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">[, 8]</td>
+<td style="text-align: left;">vs</td>
+<td style="text-align: left;">Engine (0 = V-shaped, 1 = straight)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">[, 9]</td>
+<td style="text-align: left;">am</td>
+<td style="text-align: left;">Transmission (0 = automatic, 1 = manual)</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">[,10]</td>
+<td style="text-align: left;">gear</td>
+<td style="text-align: left;">Number of forward gears</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">[,11]</td>
+<td style="text-align: left;">carb</td>
+<td style="text-align: left;">Number of carburetors</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+<h3 class="anchored">Note</h3>
+
+<p>Henderson and Velleman (1981) comment in a footnote to Table 1:
+‘Hocking [original transcriber]'s noncrucial coding of the
+Mazda's rotary engine as a straight six-cylinder engine and the
+Porsche's flat engine as a V engine, as well as the inclusion of the
+diesel Mercedes 240D, have been retained to enable direct comparisons
+to be made with previous analyses.’
+</p>
+
+
+<h3 class="anchored">Source</h3>
+
+<p>Henderson and Velleman (1981),
+Building multiple regression models interactively.
+<em>Biometrics</em>, <b>37</b>, 391–411.
+</p>
+
+
+<h3 class="anchored">Examples</h3>
+
+<pre><code class="language-R">require(graphics)
+pairs(mtcars, main = "mtcars data", gap = 1/4)
+coplot(mpg ~ disp | as.factor(cyl), data = mtcars,
+       panel = panel.smooth, rows = 1)
+## possibly more meaningful, e.g., for summary() or bivariate plots:
+mtcars2 &lt;- within(mtcars, {
+   vs &lt;- factor(vs, labels = c("V", "S"))
+   am &lt;- factor(am, labels = c("automatic", "manual"))
+   cyl  &lt;- ordered(cyl)
+   gear &lt;- ordered(gear)
+   carb &lt;- ordered(carb)
+})
+summary(mtcars2)
+</code></pre>
+
+
+</section></section></div>
+
+</div></div></section>
+</section>
+</main></div>
+
+<p><br> <br></p>
+<p>Commençons ici par créer une base de données (BDD) vide, dans laquelle nous allons stocker mtcars. Elle nous servira d’exemple pour les traitements SQL à venir. En revanche, la manière de se connecter à votre BDD dépendra de la solution utilisée (SQlite, MySQL, SQLserver, etc) et de l’adresse de la BDD en question.</p>
+<p>N’hésitez pas à me contacter en cas de problèmes.</p>
+<p>Le but ici : Créer une connection vers la base de données. Pour cela, nous allons utiliser “pool” : Une ‘pool’ vous permettras de gérer vos connections à la BDD sans avoir à réflechir. Pensez simplement à la fermer après usage (voir ci dessous). #Pour plus d’infos voir : https://shiny.posit.co/r/articles/build/pool-basics/</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer une connection.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbPool</span>(RSQLite<span class="sc">::</span><span class="fu">SQLite</span>(), <span class="at">dbname =</span> <span class="st">":memory:"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Maintenant, crééons la table “mtcars” au sein de notre BDD.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer une table SQL avec le jeu de données "mtcars".</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(con, <span class="st">"mtcars"</span>, mtcars_modif)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dbListTables</span>(con)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "mtcars"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Voila, notre BDD est crée !</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbListFields</span>(con, <span class="st">"mtcars"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "mpg"      "cyl"      "disp"     "hp"       "drat"     "wt"      
+ [7] "qsec"     "vs"       "am"       "gear"     "carb"     "car name"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbReadTable</span>(con, <span class="st">"mtcars"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    mpg cyl  disp  hp drat    wt  qsec vs am gear carb            car.name
+1  21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4           Mazda RX4
+2  21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4       Mazda RX4 Wag
+3  22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1          Datsun 710
+4  21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1      Hornet 4 Drive
+5  18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2   Hornet Sportabout
+6  18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1             Valiant
+7  14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4          Duster 360
+8  24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2           Merc 240D
+9  22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2            Merc 230
+10 19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4            Merc 280
+11 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4           Merc 280C
+12 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3          Merc 450SE
+13 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3          Merc 450SL
+14 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3         Merc 450SLC
+15 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4  Cadillac Fleetwood
+16 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4 Lincoln Continental
+17 14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4   Chrysler Imperial
+18 32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1            Fiat 128
+19 30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2         Honda Civic
+20 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1      Toyota Corolla
+21 21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1       Toyota Corona
+22 15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2    Dodge Challenger
+23 15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2         AMC Javelin
+24 13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4          Camaro Z28
+25 19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2    Pontiac Firebird
+26 27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1           Fiat X1-9
+27 26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2       Porsche 914-2
+28 30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2        Lotus Europa
+29 15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4      Ford Pantera L
+30 19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6        Ferrari Dino
+31 15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8       Maserati Bora
+32 21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2          Volvo 142E</code></pre>
+</div>
+</div>
+
+<section id="effectuer-une-requête-sql-dans-r-à-laide-dun-chunk-dédié." class="level2">
+<h2 data-anchor-id="effectuer-une-requête-sql-dans-r-à-laide-dun-chunk-dédié.">2) Effectuer une requête SQL dans R à l’aide d’un chunk dédié.</h2>
+<p>Bien, il est temps d’effectuer notre première requête !</p>
+<p>Le language de la requête est <em>SQL</em>, mais on utilise la fonction dbGetQuery() du package DBI pour faire notre requête. Le chunk reste donc en language <em>R</em>.</p>
+<p>Vous pouvez donc simplement copier la requête SQL qui vous a demandé tant d’efforts !</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mt_cars_df <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(con, <span class="st">"</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT *</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM mtcars</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE hp &gt; 150 AND mpg &lt; 18</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Voilà, c’est tout simple ! A vous de complexifier vos requêtes, et de découvrir les possibilités offertes par ce package.</p>
+</section>
+<section id="analyser-les-données-de-la-requête" class="level2">
+<h2 data-anchor-id="analyser-les-données-de-la-requête">3) Analyser les données de la requête</h2>
+<p>Maitenant, on repasse en R !</p>
+<p>Et on utilise le résultat de notre requête pour faire un petit graphique !</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_bw</span>())  </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Préparation des données</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>mt_cars_df<span class="sc">$</span>mpg_z <span class="ot">&lt;-</span> <span class="fu">round</span>((mt_cars_df<span class="sc">$</span>mpg <span class="sc">-</span> <span class="fu">mean</span>(mt_cars_df<span class="sc">$</span>mpg))<span class="sc">/</span><span class="fu">sd</span>(mt_cars_df<span class="sc">$</span>mpg), <span class="dv">2</span>)  </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculer la consommation de carburant normalisée</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>mt_cars_df<span class="sc">$</span>mpg_type <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(mt_cars_df<span class="sc">$</span>mpg_z <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="st">"en dessous"</span>, <span class="st">"au-dessus"</span>)  </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Indicateur au-dessus/en dessous de la moyenne</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>mt_cars_df <span class="ot">&lt;-</span> mt_cars_df[<span class="fu">order</span>(mt_cars_df<span class="sc">$</span>mpg_z), ]  <span class="co"># Trier</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>mt_cars_df<span class="sc">$</span><span class="st">`</span><span class="at">car name</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">factor</span>(mt_cars_df<span class="sc">$</span><span class="st">`</span><span class="at">car name</span><span class="st">`</span>, <span class="at">levels =</span> mt_cars_df<span class="sc">$</span><span class="st">`</span><span class="at">car name</span><span class="st">`</span>)  </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir en facteur pour conserver l'ordre trié dans le graphique.</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Diagrammes en barres divergents</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mt_cars_df, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">car name</span><span class="st">`</span>, <span class="at">y=</span>mpg_z, <span class="at">label=</span>mpg_z)) <span class="sc">+</span> </span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">'identity'</span>, <span class="fu">aes</span>(<span class="at">fill=</span>mpg_type), <span class="at">width=</span>.<span class="dv">5</span>)  <span class="sc">+</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">name=</span><span class="st">"Consommation"</span>, </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Au-dessus de la moyenne"</span>, <span class="st">"En dessous de la moyenne"</span>), </span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"au-dessus"</span><span class="ot">=</span><span class="st">"#00ba38"</span>, <span class="st">"en dessous"</span><span class="ot">=</span><span class="st">"#f8766d"</span>)) <span class="sc">+</span> </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">subtitle=</span><span class="st">"Consommation normalisée de 'mtcars'"</span>, </span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">title=</span> <span class="st">"Diagrammes en barres divergents"</span>) <span class="sc">+</span> </span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="06_Cours_6_SQL_et_R_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Ici, j’utilise ggplot2 pour créer un graphique en barres divergentes, en mettant en évidence les voitures ayant une consommation de carburant supérieure et inférieure à la moyenne.</p>
+<p>Le graphique présente les noms des voitures sur l’axe des x et la consommation de carburant normalisée sur l’axe des y. Les barres sont colorées en fonction de la consommation de carburant par rapport à la moyenne.</p>
+<p>Le graphique est affiché en orientation horizontale (coord_flip()) pour une meilleure lisibilité des noms des voitures.</p>
+</section>
+
+<section id="iii-méthode-2-sql-en-chunks" class="level1">
+<h1>III) Méthode 2 : SQL en chunks</h1>
+<p>Une autre solution pour utiliser SQL dans R studio : Créer des chunks ou le code sera executé en SQL !</p>
+<p>Cette solution simple permet de copier+coller directement vos requêtes dans un chunk. Cela dit, vous devrez au préalable effectuer la connexion avec la base de données.</p>
+<section id="effectuer-une-requête-sql-dans-r-à-laide-dun-chunk-dédié.-1" class="level2">
+<h2 data-anchor-id="effectuer-une-requête-sql-dans-r-à-laide-dun-chunk-dédié.-1">1) Effectuer une requête SQL dans R à l’aide d’un chunk dédié.</h2>
+<p>Insérons un chunk sql et sélectionnons les voitures à plus de 150 chevaux et consommant moins de 18 gallons par mile.</p>
+<div class="cell" data-output.var="mt_cars_df_2">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  <span class="kw">SELECT</span> <span class="op">*</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">FROM</span> mtcars</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">WHERE</span> hp <span class="op">&gt;</span> <span class="dv">150</span> <span class="kw">AND</span> mpg <span class="op">&lt;</span> <span class="dv">18</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Dans l’entête de ce chunk à la place de <strong>{r}</strong> j’ai mis : <strong>{sql, connection=con, output.var = “mt_cars_df_2”}</strong></p>
+<p>Notez que la connection à été faite avec “connection = con”, et que le résultat de la requête à été stocké dans “mt_cars_df_2”, directement dans R studio !</p>
+</section>
+<section id="analyser" class="level2">
+<h2 data-anchor-id="analyser">2) Analyser</h2>
+<p>Tout comme avant, on peut analyser le résultat “mt_cars_df_2” directement en R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mt_cars_df_2) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">car name</span><span class="st">`</span>, <span class="at">y =</span> mpg, <span class="at">fill =</span> hp) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_fill_gradient</span>() <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"C'est quoi ta bagnole ?"</span>, <span class="at">y =</span> <span class="st">"Conso' de fioul !"</span>, <span class="at">fill =</span> </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Nombre de chevals </span><span class="sc">\n</span><span class="st"> dans l'moteur !"</span>) <span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a> <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">angle =</span> <span class="dv">60</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="06_Cours_6_SQL_et_R_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="iv-méthode-3-sql-dplyr" class="level1">
+<h1>IV) Méthode 3 : SQL &amp; Dplyr !</h1>
+<p>Tu sais mieux coder en R qu’en SQL ? Cette solution est faite pour toi !</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dbplyr)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ici, on utilise le package dbplyr pour rédiger des commandes dplyr standard qui seront converties en SQL ! Une fois de plus, en utilisant la connexion et la base de données du premier exemple, vous pouvez rédiger un appel standard à la fonction filter() pour interroger les voitures avec quatre cylindres, cela renvoie un objet de type liste :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#On commence par faire la connection à la bonne base de données :</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>dbplyr_query <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"mtcars"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Puis on pipe une action, ici la fonction filter, </span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># comme on le ferait sur n'importe quel jeu de données. </span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(hp <span class="sc">&gt;</span> <span class="dv">150</span> <span class="sc">&amp;&amp;</span> mpg <span class="sc">&lt;</span> <span class="dv">18</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Et comme notre “connection” (con) ici est une pool, on peut également utiliser dplyr directement dessus :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dbplyr_query <span class="ot">&lt;-</span> con <span class="sc">%&gt;%</span> <span class="fu">tbl</span>(<span class="st">"mtcars"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Puis on pipe une action, ici la fonction filter, </span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># comme on le ferait sur n'importe quel jeu de données. </span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(hp <span class="sc">&gt;</span> <span class="dv">150</span> <span class="sc">&amp;&amp;</span> mpg <span class="sc">&lt;</span> <span class="dv">18</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Si vous souhaitez voir la traduction en code SQL de votre commande, vous pouvez utiliser la fonction show_query() du package dbplyr :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_query</span>(dbplyr_query)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;SQL&gt;
+SELECT *
+FROM `mtcars`
+WHERE (`hp` &gt; 150.0 AND `mpg` &lt; 18.0)</code></pre>
+</div>
+</div>
+<p>Lorsque vous êtes satisfait des résultats de votre requête, vous utilisez la fonction collect() du package dbplyr pour sauvegarder vos résultats sous forme de dataframe :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>tibble_from_dbplyr <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"mtcars"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(hp <span class="sc">&gt;</span> <span class="dv">150</span> <span class="sc">&amp;&amp;</span> mpg <span class="sc">&lt;</span> <span class="dv">18</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Et voila ! Avec ce tableau, on peut continuer nos analyses.</p>
+<p>Par exemple, y-aurait-il une corrélation entre le nombre de KM parcourus avec un gallon (la conso’ donc) et la puissance dans nos voitures ?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(<span class="at">x =</span> tibble_from_dbplyr<span class="sc">$</span>mpg, tibble_from_dbplyr<span class="sc">$</span>hp, <span class="st">"less"</span>, <span class="st">"pearson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's product-moment correlation
+
+data:  tibble_from_dbplyr$mpg and tibble_from_dbplyr$hp
+t = -0.098037, df = 8, p-value = 0.4622
+alternative hypothesis: true correlation is less than 0
+95 percent confidence interval:
+ -1.0000000  0.5277646
+sample estimates:
+        cor 
+-0.03464065 </code></pre>
+</div>
+</div>
+<p>Hé ben pas tellement on dirait ! Les grosses voitures que nous avons sélectionné doivent toutes polluer autant les unes que les autres :)</p>
+</section>
+<section id="v-exemple-sur-une-bdd-de-lisee" class="level1">
+<h1>V) Exemple sur une BDD de l’ISEE</h1>
+<p>Voyons voir ce que cela donne dans la vie réelle, c’est à dire en utilisant une BDD de l’ISEE.</p>
+<p>La BDD en question est AdventureWorks. C’est une BDD mise à disposition par Microsoft pour faire des tests.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(odbc)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">odbcListDrivers</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                     name        attribute
+1                                              SQL Server         APILevel
+2                                              SQL Server ConnectFunctions
+3                                              SQL Server        CPTimeout
+4                                              SQL Server    DriverODBCVer
+5                                              SQL Server        FileUsage
+6                                              SQL Server         SQLLevel
+7                                              SQL Server       UsageCount
+8                           SQL Server Native Client 11.0       UsageCount
+9                           SQL Server Native Client 11.0         APILevel
+10                          SQL Server Native Client 11.0 ConnectFunctions
+11                          SQL Server Native Client 11.0        CPTimeout
+12                          SQL Server Native Client 11.0    DriverODBCVer
+13                          SQL Server Native Client 11.0        FileUsage
+14                          SQL Server Native Client 11.0         SQLLevel
+15                          ODBC Driver 13 for SQL Server       UsageCount
+16                          ODBC Driver 13 for SQL Server         APILevel
+17                          ODBC Driver 13 for SQL Server ConnectFunctions
+18                          ODBC Driver 13 for SQL Server        CPTimeout
+19                          ODBC Driver 13 for SQL Server    DriverODBCVer
+20                          ODBC Driver 13 for SQL Server        FileUsage
+21                          ODBC Driver 13 for SQL Server         SQLLevel
+22                      SQL Server Native Client RDA 11.0       UsageCount
+23                      SQL Server Native Client RDA 11.0         APILevel
+24                      SQL Server Native Client RDA 11.0 ConnectFunctions
+25                      SQL Server Native Client RDA 11.0        CPTimeout
+26                      SQL Server Native Client RDA 11.0    DriverODBCVer
+27                      SQL Server Native Client RDA 11.0        FileUsage
+28                      SQL Server Native Client RDA 11.0         SQLLevel
+29                          ODBC Driver 17 for SQL Server       UsageCount
+30                          ODBC Driver 17 for SQL Server         APILevel
+31                          ODBC Driver 17 for SQL Server ConnectFunctions
+32                          ODBC Driver 17 for SQL Server        CPTimeout
+33                          ODBC Driver 17 for SQL Server    DriverODBCVer
+34                          ODBC Driver 17 for SQL Server        FileUsage
+35                          ODBC Driver 17 for SQL Server         SQLLevel
+36               Microsoft Access Driver (*.mdb, *.accdb)       UsageCount
+37               Microsoft Access Driver (*.mdb, *.accdb)         APILevel
+38               Microsoft Access Driver (*.mdb, *.accdb) ConnectFunctions
+39               Microsoft Access Driver (*.mdb, *.accdb)    DriverODBCVer
+40               Microsoft Access Driver (*.mdb, *.accdb)        FileUsage
+41               Microsoft Access Driver (*.mdb, *.accdb)        FileExtns
+42               Microsoft Access Driver (*.mdb, *.accdb)         SQLLevel
+43 Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)       UsageCount
+44 Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)         APILevel
+45 Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb) ConnectFunctions
+46 Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)    DriverODBCVer
+47 Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)        FileUsage
+48 Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)        FileExtns
+49 Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)         SQLLevel
+50            Microsoft Access Text Driver (*.txt, *.csv)       UsageCount
+51            Microsoft Access Text Driver (*.txt, *.csv)         APILevel
+52            Microsoft Access Text Driver (*.txt, *.csv) ConnectFunctions
+53            Microsoft Access Text Driver (*.txt, *.csv)    DriverODBCVer
+54            Microsoft Access Text Driver (*.txt, *.csv)        FileUsage
+55            Microsoft Access Text Driver (*.txt, *.csv)        FileExtns
+56            Microsoft Access Text Driver (*.txt, *.csv)         SQLLevel
+                  value
+1                     2
+2                   YYY
+3                    60
+4                 03.50
+5                     0
+6                     1
+7                     1
+8                     1
+9                     2
+10                  YYY
+11                   60
+12                03.80
+13                    0
+14                    1
+15                    1
+16                    2
+17                  YYY
+18                   60
+19                03.80
+20                    0
+21                    1
+22                    1
+23                    2
+24                  YYY
+25                   60
+26                03.80
+27                    0
+28                    1
+29                    1
+30                    2
+31                  YYY
+32                   60
+33                03.80
+34                    0
+35                    1
+36                    3
+37                    1
+38                  YYN
+39                02.50
+40                    2
+41        *.mdb,*.accdb
+42                    0
+43                    3
+44                    1
+45                  YYN
+46                02.50
+47                    2
+48 *.xls,*.xlsx, *.xlsb
+49                    0
+50                    3
+51                    1
+52                  YYN
+53                02.50
+54                    2
+55         *.txt, *.csv
+56                    0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Créer une connection vers AdventureWorks2016 ! </span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>CON_AW2016 <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">odbc</span>(), </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Driver =</span> <span class="st">"SQL Server"</span>, </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Server =</span> <span class="st">"sql-data</span><span class="sc">\\</span><span class="st">test"</span>, </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Database =</span> <span class="st">"AdventureWorks2016"</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">Trusted_Connection =</span> <span class="st">"True"</span>)       </span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co"># La trusted connection fonctionne car vous êtes déjà authentifié sur votre session windows :) </span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="fu">dbListTables</span>(CON_AW2016)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] "AWBuildVersion"                                      
+  [2] "DatabaseLog"                                         
+  [3] "ErrorLog"                                            
+  [4] "Department"                                          
+  [5] "Employee"                                            
+  [6] "EmployeeDepartmentHistory"                           
+  [7] "EmployeePayHistory"                                  
+  [8] "JobCandidate"                                        
+  [9] "Shift"                                               
+ [10] "Address"                                             
+ [11] "AddressType"                                         
+ [12] "BusinessEntity"                                      
+ [13] "BusinessEntityAddress"                               
+ [14] "BusinessEntityContact"                               
+ [15] "ContactType"                                         
+ [16] "CountryRegion"                                       
+ [17] "EmailAddress"                                        
+ [18] "Password"                                            
+ [19] "Person"                                              
+ [20] "PersonPhone"                                         
+ [21] "PhoneNumberType"                                     
+ [22] "StateProvince"                                       
+ [23] "BillOfMaterials"                                     
+ [24] "Culture"                                             
+ [25] "Document"                                            
+ [26] "Illustration"                                        
+ [27] "Location"                                            
+ [28] "Product"                                             
+ [29] "ProductCategory"                                     
+ [30] "ProductCostHistory"                                  
+ [31] "ProductDescription"                                  
+ [32] "ProductDocument"                                     
+ [33] "ProductInventory"                                    
+ [34] "ProductListPriceHistory"                             
+ [35] "ProductModel"                                        
+ [36] "ProductModelIllustration"                            
+ [37] "ProductModelProductDescriptionCulture"               
+ [38] "ProductPhoto"                                        
+ [39] "ProductProductPhoto"                                 
+ [40] "ProductReview"                                       
+ [41] "ProductSubcategory"                                  
+ [42] "ScrapReason"                                         
+ [43] "TransactionHistory"                                  
+ [44] "TransactionHistoryArchive"                           
+ [45] "UnitMeasure"                                         
+ [46] "WorkOrder"                                           
+ [47] "WorkOrderRouting"                                    
+ [48] "ProductVendor"                                       
+ [49] "PurchaseOrderDetail"                                 
+ [50] "PurchaseOrderHeader"                                 
+ [51] "ShipMethod"                                          
+ [52] "Vendor"                                              
+ [53] "CountryRegionCurrency"                               
+ [54] "CreditCard"                                          
+ [55] "Currency"                                            
+ [56] "CurrencyRate"                                        
+ [57] "Customer"                                            
+ [58] "PersonCreditCard"                                    
+ [59] "SalesOrderDetail"                                    
+ [60] "SalesOrderHeader"                                    
+ [61] "SalesOrderHeaderSalesReason"                         
+ [62] "SalesPerson"                                         
+ [63] "SalesPersonQuotaHistory"                             
+ [64] "SalesReason"                                         
+ [65] "SalesTaxRate"                                        
+ [66] "SalesTerritory"                                      
+ [67] "SalesTerritoryHistory"                               
+ [68] "ShoppingCartItem"                                    
+ [69] "SpecialOffer"                                        
+ [70] "SpecialOfferProduct"                                 
+ [71] "Store"                                               
+ [72] "trace_xe_action_map"                                 
+ [73] "trace_xe_event_map"                                  
+ [74] "vEmployee"                                           
+ [75] "vEmployeeDepartment"                                 
+ [76] "vEmployeeDepartmentHistory"                          
+ [77] "vJobCandidate"                                       
+ [78] "vJobCandidateEducation"                              
+ [79] "vJobCandidateEmployment"                             
+ [80] "CHECK_CONSTRAINTS"                                   
+ [81] "COLUMN_DOMAIN_USAGE"                                 
+ [82] "COLUMN_PRIVILEGES"                                   
+ [83] "COLUMNS"                                             
+ [84] "CONSTRAINT_COLUMN_USAGE"                             
+ [85] "CONSTRAINT_TABLE_USAGE"                              
+ [86] "DOMAIN_CONSTRAINTS"                                  
+ [87] "DOMAINS"                                             
+ [88] "KEY_COLUMN_USAGE"                                    
+ [89] "PARAMETERS"                                          
+ [90] "REFERENTIAL_CONSTRAINTS"                             
+ [91] "ROUTINE_COLUMNS"                                     
+ [92] "ROUTINES"                                            
+ [93] "SCHEMATA"                                            
+ [94] "SEQUENCES"                                           
+ [95] "TABLE_CONSTRAINTS"                                   
+ [96] "TABLE_PRIVILEGES"                                    
+ [97] "TABLES"                                              
+ [98] "VIEW_COLUMN_USAGE"                                   
+ [99] "VIEW_TABLE_USAGE"                                    
+[100] "VIEWS"                                               
+[101] "vAdditionalContactInfo"                              
+[102] "vStateProvinceCountryRegion"                         
+[103] "vProductAndDescription"                              
+[104] "vProductModelCatalogDescription"                     
+[105] "vProductModelInstructions"                           
+[106] "vVendorWithAddresses"                                
+[107] "vVendorWithContacts"                                 
+[108] "vIndividualCustomer"                                 
+[109] "vPersonDemographics"                                 
+[110] "vSalesPerson"                                        
+[111] "vSalesPersonSalesByFiscalYears"                      
+[112] "vStoreWithAddresses"                                 
+[113] "vStoreWithContacts"                                  
+[114] "vStoreWithDemographics"                              
+[115] "all_columns"                                         
+[116] "all_objects"                                         
+[117] "all_parameters"                                      
+[118] "all_sql_modules"                                     
+[119] "all_views"                                           
+[120] "allocation_units"                                    
+[121] "assemblies"                                          
+[122] "assembly_files"                                      
+[123] "assembly_modules"                                    
+[124] "assembly_references"                                 
+[125] "assembly_types"                                      
+[126] "asymmetric_keys"                                     
+[127] "availability_databases_cluster"                      
+[128] "availability_group_listener_ip_addresses"            
+[129] "availability_group_listeners"                        
+[130] "availability_groups"                                 
+[131] "availability_groups_cluster"                         
+[132] "availability_read_only_routing_lists"                
+[133] "availability_replicas"                               
+[134] "backup_devices"                                      
+[135] "certificates"                                        
+[136] "change_tracking_databases"                           
+[137] "change_tracking_tables"                              
+[138] "check_constraints"                                   
+[139] "column_encryption_key_values"                        
+[140] "column_encryption_keys"                              
+[141] "column_master_keys"                                  
+[142] "column_store_dictionaries"                           
+[143] "column_store_row_groups"                             
+[144] "column_store_segments"                               
+[145] "column_type_usages"                                  
+[146] "column_xml_schema_collection_usages"                 
+[147] "columns"                                             
+[148] "computed_columns"                                    
+[149] "configurations"                                      
+[150] "conversation_endpoints"                              
+[151] "conversation_groups"                                 
+[152] "conversation_priorities"                             
+[153] "credentials"                                         
+[154] "crypt_properties"                                    
+[155] "cryptographic_providers"                             
+[156] "data_spaces"                                         
+[157] "database_audit_specification_details"                
+[158] "database_audit_specifications"                       
+[159] "database_credentials"                                
+[160] "database_files"                                      
+[161] "database_filestream_options"                         
+[162] "database_mirroring"                                  
+[163] "database_mirroring_endpoints"                        
+[164] "database_mirroring_witnesses"                        
+[165] "database_permissions"                                
+[166] "database_principals"                                 
+[167] "database_query_store_options"                        
+[168] "database_recovery_status"                            
+[169] "database_role_members"                               
+[170] "database_scoped_configurations"                      
+[171] "database_scoped_credentials"                         
+[172] "databases"                                           
+[173] "default_constraints"                                 
+[174] "destination_data_spaces"                             
+[175] "dm_audit_actions"                                    
+[176] "dm_audit_class_type_map"                             
+[177] "dm_broker_activated_tasks"                           
+[178] "dm_broker_connections"                               
+[179] "dm_broker_forwarded_messages"                        
+[180] "dm_broker_queue_monitors"                            
+[181] "dm_cdc_errors"                                       
+[182] "dm_cdc_log_scan_sessions"                            
+[183] "dm_clr_appdomains"                                   
+[184] "dm_clr_loaded_assemblies"                            
+[185] "dm_clr_properties"                                   
+[186] "dm_clr_tasks"                                        
+[187] "dm_column_store_object_pool"                         
+[188] "dm_cryptographic_provider_properties"                
+[189] "dm_database_encryption_keys"                         
+[190] "dm_db_column_store_row_group_operational_stats"      
+[191] "dm_db_column_store_row_group_physical_stats"         
+[192] "dm_db_file_space_usage"                              
+[193] "dm_db_fts_index_physical_stats"                      
+[194] "dm_db_index_usage_stats"                             
+[195] "dm_db_log_space_usage"                               
+[196] "dm_db_mirroring_auto_page_repair"                    
+[197] "dm_db_mirroring_connections"                         
+[198] "dm_db_mirroring_past_actions"                        
+[199] "dm_db_missing_index_details"                         
+[200] "dm_db_missing_index_group_stats"                     
+[201] "dm_db_missing_index_groups"                          
+[202] "dm_db_partition_stats"                               
+[203] "dm_db_persisted_sku_features"                        
+[204] "dm_db_rda_migration_status"                          
+[205] "dm_db_rda_schema_update_status"                      
+[206] "dm_db_script_level"                                  
+[207] "dm_db_session_space_usage"                           
+[208] "dm_db_task_space_usage"                              
+[209] "dm_db_uncontained_entities"                          
+[210] "dm_db_xtp_checkpoint_files"                          
+[211] "dm_db_xtp_checkpoint_stats"                          
+[212] "dm_db_xtp_gc_cycle_stats"                            
+[213] "dm_db_xtp_hash_index_stats"                          
+[214] "dm_db_xtp_index_stats"                               
+[215] "dm_db_xtp_memory_consumers"                          
+[216] "dm_db_xtp_nonclustered_index_stats"                  
+[217] "dm_db_xtp_object_stats"                              
+[218] "dm_db_xtp_table_memory_stats"                        
+[219] "dm_db_xtp_transactions"                              
+[220] "dm_exec_background_job_queue"                        
+[221] "dm_exec_background_job_queue_stats"                  
+[222] "dm_exec_cached_plans"                                
+[223] "dm_exec_compute_node_errors"                         
+[224] "dm_exec_compute_node_status"                         
+[225] "dm_exec_compute_nodes"                               
+[226] "dm_exec_connections"                                 
+[227] "dm_exec_distributed_request_steps"                   
+[228] "dm_exec_distributed_requests"                        
+[229] "dm_exec_distributed_sql_requests"                    
+[230] "dm_exec_dms_services"                                
+[231] "dm_exec_dms_workers"                                 
+[232] "dm_exec_external_operations"                         
+[233] "dm_exec_external_work"                               
+[234] "dm_exec_function_stats"                              
+[235] "dm_exec_procedure_stats"                             
+[236] "dm_exec_query_memory_grants"                         
+[237] "dm_exec_query_optimizer_info"                        
+[238] "dm_exec_query_optimizer_memory_gateways"             
+[239] "dm_exec_query_parallel_workers"                      
+[240] "dm_exec_query_profiles"                              
+[241] "dm_exec_query_resource_semaphores"                   
+[242] "dm_exec_query_stats"                                 
+[243] "dm_exec_query_transformation_stats"                  
+[244] "dm_exec_requests"                                    
+[245] "dm_exec_session_wait_stats"                          
+[246] "dm_exec_sessions"                                    
+[247] "dm_exec_trigger_stats"                               
+[248] "dm_exec_valid_use_hints"                             
+[249] "dm_external_script_execution_stats"                  
+[250] "dm_external_script_requests"                         
+[251] "dm_filestream_file_io_handles"                       
+[252] "dm_filestream_file_io_requests"                      
+[253] "dm_filestream_non_transacted_handles"                
+[254] "dm_fts_active_catalogs"                              
+[255] "dm_fts_fdhosts"                                      
+[256] "dm_fts_index_population"                             
+[257] "dm_fts_memory_buffers"                               
+[258] "dm_fts_memory_pools"                                 
+[259] "dm_fts_outstanding_batches"                          
+[260] "dm_fts_population_ranges"                            
+[261] "dm_fts_semantic_similarity_population"               
+[262] "dm_hadr_auto_page_repair"                            
+[263] "dm_hadr_automatic_seeding"                           
+[264] "dm_hadr_availability_group_states"                   
+[265] "dm_hadr_availability_replica_cluster_nodes"          
+[266] "dm_hadr_availability_replica_cluster_states"         
+[267] "dm_hadr_availability_replica_states"                 
+[268] "dm_hadr_cluster"                                     
+[269] "dm_hadr_cluster_members"                             
+[270] "dm_hadr_cluster_networks"                            
+[271] "dm_hadr_database_replica_cluster_states"             
+[272] "dm_hadr_database_replica_states"                     
+[273] "dm_hadr_instance_node_map"                           
+[274] "dm_hadr_name_id_map"                                 
+[275] "dm_hadr_physical_seeding_stats"                      
+[276] "dm_io_backup_tapes"                                  
+[277] "dm_io_cluster_shared_drives"                         
+[278] "dm_io_cluster_valid_path_names"                      
+[279] "dm_io_pending_io_requests"                           
+[280] "dm_logpool_hashentries"                              
+[281] "dm_logpool_stats"                                    
+[282] "dm_os_buffer_descriptors"                            
+[283] "dm_os_buffer_pool_extension_configuration"           
+[284] "dm_os_child_instances"                               
+[285] "dm_os_cluster_nodes"                                 
+[286] "dm_os_cluster_properties"                            
+[287] "dm_os_dispatcher_pools"                              
+[288] "dm_os_dispatchers"                                   
+[289] "dm_os_hosts"                                         
+[290] "dm_os_latch_stats"                                   
+[291] "dm_os_loaded_modules"                                
+[292] "dm_os_memory_allocations"                            
+[293] "dm_os_memory_broker_clerks"                          
+[294] "dm_os_memory_brokers"                                
+[295] "dm_os_memory_cache_clock_hands"                      
+[296] "dm_os_memory_cache_counters"                         
+[297] "dm_os_memory_cache_entries"                          
+[298] "dm_os_memory_cache_hash_tables"                      
+[299] "dm_os_memory_clerks"                                 
+[300] "dm_os_memory_node_access_stats"                      
+[301] "dm_os_memory_nodes"                                  
+[302] "dm_os_memory_objects"                                
+[303] "dm_os_memory_pools"                                  
+[304] "dm_os_nodes"                                         
+[305] "dm_os_performance_counters"                          
+[306] "dm_os_process_memory"                                
+[307] "dm_os_ring_buffers"                                  
+[308] "dm_os_schedulers"                                    
+[309] "dm_os_server_diagnostics_log_configurations"         
+[310] "dm_os_spinlock_stats"                                
+[311] "dm_os_stacks"                                        
+[312] "dm_os_sublatches"                                    
+[313] "dm_os_sys_info"                                      
+[314] "dm_os_sys_memory"                                    
+[315] "dm_os_tasks"                                         
+[316] "dm_os_threads"                                       
+[317] "dm_os_virtual_address_dump"                          
+[318] "dm_os_wait_stats"                                    
+[319] "dm_os_waiting_tasks"                                 
+[320] "dm_os_windows_info"                                  
+[321] "dm_os_worker_local_storage"                          
+[322] "dm_os_workers"                                       
+[323] "dm_qn_subscriptions"                                 
+[324] "dm_repl_articles"                                    
+[325] "dm_repl_schemas"                                     
+[326] "dm_repl_tranhash"                                    
+[327] "dm_repl_traninfo"                                    
+[328] "dm_resource_governor_configuration"                  
+[329] "dm_resource_governor_external_resource_pool_affinity"
+[330] "dm_resource_governor_external_resource_pools"        
+[331] "dm_resource_governor_resource_pool_affinity"         
+[332] "dm_resource_governor_resource_pool_volumes"          
+[333] "dm_resource_governor_resource_pools"                 
+[334] "dm_resource_governor_workload_groups"                
+[335] "dm_server_audit_status"                              
+[336] "dm_server_memory_dumps"                              
+[337] "dm_server_registry"                                  
+[338] "dm_server_services"                                  
+[339] "dm_tcp_listener_states"                              
+[340] "dm_tran_active_snapshot_database_transactions"       
+[341] "dm_tran_active_transactions"                         
+[342] "dm_tran_commit_table"                                
+[343] "dm_tran_current_snapshot"                            
+[344] "dm_tran_current_transaction"                         
+[345] "dm_tran_database_transactions"                       
+[346] "dm_tran_global_recovery_transactions"                
+[347] "dm_tran_global_transactions"                         
+[348] "dm_tran_global_transactions_enlistments"             
+[349] "dm_tran_global_transactions_log"                     
+[350] "dm_tran_locks"                                       
+[351] "dm_tran_session_transactions"                        
+[352] "dm_tran_top_version_generators"                      
+[353] "dm_tran_transactions_snapshot"                       
+[354] "dm_tran_version_store"                               
+[355] "dm_tran_version_store_space_usage"                   
+[356] "dm_xe_map_values"                                    
+[357] "dm_xe_object_columns"                                
+[358] "dm_xe_objects"                                       
+[359] "dm_xe_packages"                                      
+[360] "dm_xe_session_event_actions"                         
+[361] "dm_xe_session_events"                                
+[362] "dm_xe_session_object_columns"                        
+[363] "dm_xe_session_targets"                               
+[364] "dm_xe_sessions"                                      
+[365] "dm_xtp_gc_queue_stats"                               
+[366] "dm_xtp_gc_stats"                                     
+[367] "dm_xtp_system_memory_consumers"                      
+[368] "dm_xtp_threads"                                      
+[369] "dm_xtp_transaction_recent_rows"                      
+[370] "dm_xtp_transaction_stats"                            
+[371] "endpoint_webmethods"                                 
+[372] "endpoints"                                           
+[373] "event_notification_event_types"                      
+[374] "event_notifications"                                 
+[375] "events"                                              
+[376] "extended_procedures"                                 
+[377] "extended_properties"                                 
+[378] "external_data_sources"                               
+[379] "external_file_formats"                               
+[380] "external_tables"                                     
+[381] "filegroups"                                          
+[382] "filetable_system_defined_objects"                    
+[383] "filetables"                                          
+[384] "foreign_key_columns"                                 
+[385] "foreign_keys"                                        
+[386] "fulltext_catalogs"                                   
+[387] "fulltext_document_types"                             
+[388] "fulltext_index_catalog_usages"                       
+[389] "fulltext_index_columns"                              
+[390] "fulltext_index_fragments"                            
+[391] "fulltext_indexes"                                    
+[392] "fulltext_languages"                                  
+[393] "fulltext_semantic_language_statistics_database"      
+[394] "fulltext_semantic_languages"                         
+[395] "fulltext_stoplists"                                  
+[396] "fulltext_stopwords"                                  
+[397] "fulltext_system_stopwords"                           
+[398] "function_order_columns"                              
+[399] "hash_indexes"                                        
+[400] "http_endpoints"                                      
+[401] "identity_columns"                                    
+[402] "index_columns"                                       
+[403] "indexes"                                             
+[404] "internal_partitions"                                 
+[405] "internal_tables"                                     
+[406] "key_constraints"                                     
+[407] "key_encryptions"                                     
+[408] "linked_logins"                                       
+[409] "login_token"                                         
+[410] "masked_columns"                                      
+[411] "master_files"                                        
+[412] "master_key_passwords"                                
+[413] "memory_optimized_tables_internal_attributes"         
+[414] "message_type_xml_schema_collection_usages"           
+[415] "messages"                                            
+[416] "module_assembly_usages"                              
+[417] "numbered_procedure_parameters"                       
+[418] "numbered_procedures"                                 
+[419] "objects"                                             
+[420] "openkeys"                                            
+[421] "parameter_type_usages"                               
+[422] "parameter_xml_schema_collection_usages"              
+[423] "parameters"                                          
+[424] "partition_functions"                                 
+[425] "partition_parameters"                                
+[426] "partition_range_values"                              
+[427] "partition_schemes"                                   
+[428] "partitions"                                          
+[429] "periods"                                             
+[430] "plan_guides"                                         
+[431] "procedures"                                          
+[432] "query_context_settings"                              
+[433] "query_store_plan"                                    
+[434] "query_store_query"                                   
+[435] "query_store_query_text"                              
+[436] "query_store_runtime_stats"                           
+[437] "query_store_runtime_stats_interval"                  
+[438] "registered_search_properties"                        
+[439] "registered_search_property_lists"                    
+[440] "remote_data_archive_databases"                       
+[441] "remote_data_archive_tables"                          
+[442] "remote_logins"                                       
+[443] "remote_service_bindings"                             
+[444] "resource_governor_configuration"                     
+[445] "resource_governor_external_resource_pool_affinity"   
+[446] "resource_governor_external_resource_pools"           
+[447] "resource_governor_resource_pool_affinity"            
+[448] "resource_governor_resource_pools"                    
+[449] "resource_governor_workload_groups"                   
+[450] "routes"                                              
+[451] "schemas"                                             
+[452] "securable_classes"                                   
+[453] "security_policies"                                   
+[454] "security_predicates"                                 
+[455] "selective_xml_index_namespaces"                      
+[456] "selective_xml_index_paths"                           
+[457] "sequences"                                           
+[458] "server_assembly_modules"                             
+[459] "server_audit_specification_details"                  
+[460] "server_audit_specifications"                         
+[461] "server_audits"                                       
+[462] "server_event_notifications"                          
+[463] "server_event_session_actions"                        
+[464] "server_event_session_events"                         
+[465] "server_event_session_fields"                         
+[466] "server_event_session_targets"                        
+[467] "server_event_sessions"                               
+[468] "server_events"                                       
+[469] "server_file_audits"                                  
+[470] "server_permissions"                                  
+[471] "server_principal_credentials"                        
+[472] "server_principals"                                   
+[473] "server_role_members"                                 
+[474] "server_sql_modules"                                  
+[475] "server_trigger_events"                               
+[476] "server_triggers"                                     
+[477] "servers"                                             
+[478] "service_broker_endpoints"                            
+[479] "service_contract_message_usages"                     
+[480] "service_contract_usages"                             
+[481] "service_contracts"                                   
+[482] "service_message_types"                               
+[483] "service_queue_usages"                                
+[484] "service_queues"                                      
+[485] "services"                                            
+[486] "soap_endpoints"                                      
+[487] "spatial_index_tessellations"                         
+[488] "spatial_indexes"                                     
+[489] "spatial_reference_systems"                           
+[490] "sql_dependencies"                                    
+[491] "sql_expression_dependencies"                         
+[492] "sql_logins"                                          
+[493] "sql_modules"                                         
+[494] "stats"                                               
+[495] "stats_columns"                                       
+[496] "symmetric_keys"                                      
+[497] "synonyms"                                            
+[498] "sysaltfiles"                                         
+[499] "syscacheobjects"                                     
+[500] "syscharsets"                                         
+[501] "syscolumns"                                          
+[502] "syscomments"                                         
+[503] "sysconfigures"                                       
+[504] "sysconstraints"                                      
+[505] "syscurconfigs"                                       
+[506] "syscursorcolumns"                                    
+[507] "syscursorrefs"                                       
+[508] "syscursors"                                          
+[509] "syscursortables"                                     
+[510] "sysdatabases"                                        
+[511] "sysdepends"                                          
+[512] "sysdevices"                                          
+[513] "sysfilegroups"                                       
+[514] "sysfiles"                                            
+[515] "sysforeignkeys"                                      
+[516] "sysfulltextcatalogs"                                 
+[517] "sysindexes"                                          
+[518] "sysindexkeys"                                        
+[519] "syslanguages"                                        
+[520] "syslockinfo"                                         
+[521] "syslogins"                                           
+[522] "sysmembers"                                          
+[523] "sysmessages"                                         
+[524] "sysobjects"                                          
+[525] "sysoledbusers"                                       
+[526] "sysopentapes"                                        
+[527] "sysperfinfo"                                         
+[528] "syspermissions"                                      
+[529] "sysprocesses"                                        
+[530] "sysprotects"                                         
+[531] "sysreferences"                                       
+[532] "sysremotelogins"                                     
+[533] "sysservers"                                          
+[534] "system_columns"                                      
+[535] "system_components_surface_area_configuration"        
+[536] "system_internals_allocation_units"                   
+[537] "system_internals_partition_columns"                  
+[538] "system_internals_partitions"                         
+[539] "system_objects"                                      
+[540] "system_parameters"                                   
+[541] "system_sql_modules"                                  
+[542] "system_views"                                        
+[543] "systypes"                                            
+[544] "sysusers"                                            
+[545] "table_types"                                         
+[546] "tables"                                              
+[547] "tcp_endpoints"                                       
+[548] "time_zone_info"                                      
+[549] "trace_categories"                                    
+[550] "trace_columns"                                       
+[551] "trace_event_bindings"                                
+[552] "trace_events"                                        
+[553] "trace_subclass_values"                               
+[554] "traces"                                              
+[555] "transmission_queue"                                  
+[556] "trigger_event_types"                                 
+[557] "trigger_events"                                      
+[558] "triggers"                                            
+[559] "type_assembly_usages"                                
+[560] "types"                                               
+[561] "user_token"                                          
+[562] "via_endpoints"                                       
+[563] "views"                                               
+[564] "xml_indexes"                                         
+[565] "xml_schema_attributes"                               
+[566] "xml_schema_collections"                              
+[567] "xml_schema_component_placements"                     
+[568] "xml_schema_components"                               
+[569] "xml_schema_elements"                                 
+[570] "xml_schema_facets"                                   
+[571] "xml_schema_model_groups"                             
+[572] "xml_schema_namespaces"                               
+[573] "xml_schema_types"                                    
+[574] "xml_schema_wildcard_namespaces"                      
+[575] "xml_schema_wildcards"                                </code></pre>
+</div>
+</div>
+<p>A noter que vous pouvez utiliser autre chose que RSQLite (pour du MySQL, PostGre, etc…)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>MyAdventure2016_db <span class="ot">&lt;-</span> CON_AW2016 <span class="sc">%&gt;%</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tbl</span>(<span class="fu">in_schema</span>(<span class="st">"Sales"</span>, <span class="st">"CreditCard"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Puis on pipe une action, ici la fonction filter, </span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># comme on le ferait sur n'importe quel jeu de données. </span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(CreditCardID <span class="sc">&lt;</span> <span class="dv">300</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ce qui est génial, c’est que la commande ci-dessus ne stocke pas les données sur R, car les données restent stockées sur le server ! En fait, cette commande ne touche même pas à la base de données du server, tant qu’on ne demande pas d’afficher les résultats, comme ceci :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>MyAdventure2016_db</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Source:   SQL [?? x 6]
+# Database: Microsoft SQL Server 13.00.6300[ISEE\Noe.Barthelemy@SQL-DATA\TEST/AdventureWorks2016]
+   CreditCardID CardType      CardNumber    ExpMonth ExpYear ModifiedDate       
+          &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;            &lt;int&gt;   &lt;int&gt; &lt;dttm&gt;             
+ 1            1 SuperiorCard  333326646953…       11    2006 2013-07-29 00:00:00
+ 2            2 Distinguish   555521272497…        8    2005 2013-12-05 00:00:00
+ 3            3 ColonialVoice 777783448383…        7    2005 2014-01-14 00:00:00
+ 4            4 ColonialVoice 777749157182…        7    2006 2013-05-20 00:00:00
+ 5            5 Vista         111144046000…        4    2005 2013-02-01 00:00:00
+ 6            6 Distinguish   555571320361…        9    2006 2014-04-10 00:00:00
+ 7            7 Distinguish   555536354010…        6    2007 2013-02-01 00:00:00
+ 8            8 SuperiorCard  333360811931…        7    2007 2013-06-30 00:00:00
+ 9            9 Distinguish   555534656259…        2    2005 2013-09-23 00:00:00
+10           10 SuperiorCard  333321263864…        8    2008 2011-08-31 00:00:00
+# ℹ more rows</code></pre>
+</div>
+</div>
+<p>Et cela ne nous empêche pas de faire ce qu’on veut avec, comme par exemple faire un plot :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">as.data.frame</span>(MyAdventure2016_db)) <span class="sc">+</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> CardType) <span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"#112446"</span>) <span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(ExpYear))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="06_Cours_6_SQL_et_R_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Maintenant qu’on a bien peaufiné notre “requête” (écrite par nous même en R avec la syntaxe <em>dplyr</em>, mais traduite en SQL par <em>dbplyr</em>), on peut collecter les données. Notez bien que, tant qu’on n’a pas explicitement dit à <em>dbplyr</em> de “collecter” les données, tout reste sur le server ! Pour traiter les données sur R ou pour tout autre raison, vous pouvez collecter les données comme ceci :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>MyAdventure2016 <span class="ot">&lt;-</span> MyAdventure2016_db <span class="sc">%&gt;%</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Si vous souhaitez voir la traduction en code SQL de votre commande, vous pouvez utiliser la fonction show_query() du package dbplyr :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">show_query</span>(MyAdventure2016_db)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;SQL&gt;
+SELECT *
+FROM "Sales"."CreditCard"
+WHERE ("CreditCardID" &lt; 300.0)</code></pre>
+</div>
+</div>
+<p>Et voila, nous avons une table sur laquelle opérer !</p>
+<p>Mettons que je veuille supprimer une ligne.</p>
+<p><font color="red">Evidemment, rappelez-vous que <u><b>vous portez l’entière responsabilité des commandes SQL que vous lancez sur les bases de données</b></u>. Si vous avez un doute sur votre syntaxe, faites la vérifier ! </font></p>
+<p>Malheureusement, <em>dbplyr</em> ne fait pas tout ! En fait, il se concentre surtout sur les SELECT et ses dérivés.Nous devrons utiliser la première méthode (I), décrite plus haut.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Supposons que vous voulez mettre à jour la colonne 'CardType' où 'CreditCardID' est égal à 1</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>update_query <span class="ot">&lt;-</span> <span class="st">"UPDATE Sales.CreditCard SET CardType = 'NouveauType' WHERE CreditCardID = 1"</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exécuter la requête pour mettre à jour la table dans la base de données</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co"># dbExecute(CON_AW2016, update_query)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ici, cela ne fonctionne pas : Nous n’avons pas les droits ! Mais vous voyez l’idée, remplacez seulement votre requête SQL entre guillements.</p>
+</section>
+<section id="vi-fermez-la-connection" class="level1">
+<h1>VI) Fermez la connection !</h1>
+<p>Avoir trop de connections à une base de données, surtout si elles sont inutilisées, c’est mauvais (Pour la sécurité, la performance, etc).</p>
+<p>On va donc fermer notre pool :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fermer la pool de connexions</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>pool<span class="sc">::</span><span class="fu">poolClose</span>(con)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>N’oubliez pas de le faire !</p>
+</section>
+<section id="vii-liens-utiles" class="level1">
+<h1>VII) Liens utiles</h1>
+<p>Les bases de dbplyr : <a href="https://dbplyr.tidyverse.org/articles/dbplyr.html">Les bases de DPLYR</a></p>
+<table class="table">
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">FIN</td>
+</tr>
+</tbody>
+</table>
+<p>J’espère que cela vous aura été utile.</p>
+<p>N’hésitez pas à me contacter en cas de problème, ni à améliorer votre pratique à l’aide des forums et des IA !</p>
+<p>Bon code !</p>
+
+
+</section>
+
+ <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+ <!-- /content -->
+
+
+
+</body></html>

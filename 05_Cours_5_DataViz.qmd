@@ -1,0 +1,23 @@
+---
+title: "La visualisation de données avec R"
+author: "Noé Barthelemy - ISEE"
+format: html
+editor: visual
+execute: 
+  eval: TRUE
+  warning: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(DBI)
+library(pool)
+library(odbc)
+library(dbplyr)
+```
+
+# I) Introduction
+
+

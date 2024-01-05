@@ -1,0 +1,27 @@
+---
+title: "Fonctions utiles & exemples"
+author: "Noé Barthelemy"
+format: html
+editor: visual
+---
+
+Ici, vous trouverez une liste de fonctions bien utiles dans votre usage quotidien de R. J'ai voulu rajouter des exemples pour chacune d'entre elles, et cette liste est (encore) en construction. Son but n'est évidemment pas de lister les **millions de fonctions** qui sont disponibles dans R, mais de servir de mémo pour les fonctions très utiles, et comment les utiliser lorsque leur usage est peu intuitif.
+
+**cat**
+
+La fonction \`cat\` concatène et imprime les arguments fournis. En bref, elle permet d'afficher du texte ou des variables de manière concise.
+
+```{r}
+varcat <- 10
+
+cat("J'ai ", varcat, " ans")
+```
+
+\
+**ls**
+
+Lister les variables, objets, jeux de données, présents dans notre environnement de travail.
+
+```{r}
+ls()
+```

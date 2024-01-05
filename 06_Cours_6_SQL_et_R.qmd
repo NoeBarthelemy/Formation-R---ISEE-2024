@@ -1,0 +1,344 @@
+---
+title: "Utiliser SQL dans R"
+author: "Noé Barthelemy - ISEE"
+format: html
+editor: visual
+execute: 
+  eval: TRUE
+  warning: FALSE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(DBI)
+library(pool)
+library(odbc)
+library(dbplyr)
+```
+
+# I) Introduction
+
+SQL c'est bien. R aussi. Pourquoi ne pas utiliser les deux en un seul endroit ? Ici, je vous montre **3 méthodes pour utiliser SQL** au sein de vos scripts dans Rstudio.
+
+**Je vous recommande la troisième méthode**, qui permet d'utiliser **dplyr** directement sur une table d'une base de données :
+
+*dplyr*, vous le savez surement, est une bibliothèque R qui offre une syntaxe cohérente et conviviale pour la manipulation de données, indépendamment de la source (cadres de données R, bases de données, etc.). Elle rend les opérations de manipulation de données plus simples et plus lisibles. Autrement dit, dplyr permet de travailler de manière similaire sur différentes sources de données, qu'il s'agisse de dataframes R, de bases de données ou d'autres sources. Cela peut faciliter le travail sur différentes plates-formes sans avoir à se soucier des différences de syntaxe SQL spécifiques à chaque système de gestion de base de données.
+
+<br>
+
+***Pourquoi ça me concerne ?***
+
+Pour les utilisateurs habitués à R, l'utilisation de dplyr offre une syntaxe plus familière et intuitive que le SQL. Vous pourrez ainsi regrouper l'entiereté de votre analyse en un seul script et la commenter, puis en faire un Rmarkdown ou un PDF. Cela facilitera significativement la collaboration avec vos collègues de l'ISEE ou d'ailleurs, et rendre votre travail reproductible et transparent !
+
+# II) Méthode 1 : SQL dans R avec le package DBI
+
+## 1) Créer une BDD SQL dans R
+
+Il y a plusieurs façons d'utiliser SQL dans R.
+
+Nous allons d'abord utiliser une manière assez directe. Pour cela, il nous faut des données. Prenons le jeu de données 'mtcars' intégré à R.
+
+En R, on peut déjà observer ce jeu de données :
+
+```{r}
+data("mtcars")
+head(mtcars)
+mtcars_modif <- mtcars
+mtcars_modif$`car name` <- rownames(mtcars_modif)  
+# Créer une nouvelle colonne pour les noms des voitures
+```
+
+```{r, echo = F}
+#Grâce au code ci dessous, j'affiche le contenu du panneau "help" directement dans mon notebook. 
+
+helpfile <- utils:::.getHelpFile(help(mtcars))
+outfile <- tempfile(fileext = ".html")
+tools:::Rd2HTML(helpfile, out =outfile)
+rawHTML <- paste(readLines(outfile), collapse="\n")
+knitr::asis_output(htmltools::htmlPreserve(rawHTML))
+```
+
+<br> <br>
+
+Commençons ici par créer une base de données (BDD) vide, dans laquelle nous allons stocker mtcars. Elle nous servira d'exemple pour les traitements SQL à venir. En revanche, la manière de se connecter à votre BDD dépendra de la solution utilisée (SQlite, MySQL, SQLserver, etc) et de l'adresse de la BDD en question.
+
+N'hésitez pas à me contacter en cas de problèmes.
+
+Le but ici : Créer une connection vers la base de données. Pour cela, nous allons utiliser "pool" : Une 'pool' vous permettras de gérer vos connections à la BDD sans avoir à réflechir. Pensez simplement à la fermer après usage (voir ci dessous). #Pour plus d'infos voir : https://shiny.posit.co/r/articles/build/pool-basics/
+
+```{r}
+# Créer une connection.
+con <- dbPool(RSQLite::SQLite(), dbname = ":memory:")
+```
+
+Maintenant, crééons la table "mtcars" au sein de notre BDD.
+
+```{r}
+# Créer une table SQL avec le jeu de données "mtcars".
+dbWriteTable(con, "mtcars", mtcars_modif)
+dbListTables(con)
+
+# Voila, notre BDD est crée !
+dbListFields(con, "mtcars")
+dbReadTable(con, "mtcars")
+```
+
+## 2) Effectuer une requête SQL dans R à l'aide d'un chunk dédié.
+
+Bien, il est temps d'effectuer notre première requête !
+
+Le language de la requête est *SQL*, mais on utilise la fonction dbGetQuery() du package DBI pour faire notre requête. Le chunk reste donc en language *R*.
+
+Vous pouvez donc simplement copier la requête SQL qui vous a demandé tant d'efforts !
+
+```{r}
+mt_cars_df <- dbGetQuery(con, "
+SELECT *
+FROM mtcars
+WHERE hp > 150 AND mpg < 18
+")
+```
+
+Voilà, c'est tout simple ! A vous de complexifier vos requêtes, et de découvrir les possibilités offertes par ce package.
+
+## 3) Analyser les données de la requête
+
+Maitenant, on repasse en R !
+
+Et on utilise le résultat de notre requête pour faire un petit graphique !
+
+```{r}
+theme_set(theme_bw())  
+
+# Préparation des données
+mt_cars_df$mpg_z <- round((mt_cars_df$mpg - mean(mt_cars_df$mpg))/sd(mt_cars_df$mpg), 2)  
+# Calculer la consommation de carburant normalisée
+mt_cars_df$mpg_type <- ifelse(mt_cars_df$mpg_z < 0, "en dessous", "au-dessus")  
+# Indicateur au-dessus/en dessous de la moyenne
+mt_cars_df <- mt_cars_df[order(mt_cars_df$mpg_z), ]  # Trier
+mt_cars_df$`car name` <- factor(mt_cars_df$`car name`, levels = mt_cars_df$`car name`)  
+# Convertir en facteur pour conserver l'ordre trié dans le graphique.
+
+# Diagrammes en barres divergents
+ggplot(mt_cars_df, aes(x=`car name`, y=mpg_z, label=mpg_z)) + 
+  geom_bar(stat='identity', aes(fill=mpg_type), width=.5)  +
+  scale_fill_manual(name="Consommation", 
+                    labels = c("Au-dessus de la moyenne", "En dessous de la moyenne"), 
+                    values = c("au-dessus"="#00ba38", "en dessous"="#f8766d")) + 
+  labs(subtitle="Consommation normalisée de 'mtcars'", 
+       title= "Diagrammes en barres divergents") + 
+  coord_flip()
+
+```
+
+Ici, j'utilise ggplot2 pour créer un graphique en barres divergentes, en mettant en évidence les voitures ayant une consommation de carburant supérieure et inférieure à la moyenne.
+
+Le graphique présente les noms des voitures sur l'axe des x et la consommation de carburant normalisée sur l'axe des y. Les barres sont colorées en fonction de la consommation de carburant par rapport à la moyenne.
+
+Le graphique est affiché en orientation horizontale (coord_flip()) pour une meilleure lisibilité des noms des voitures.
+
+# III) Méthode 2 : SQL en chunks
+
+Une autre solution pour utiliser SQL dans R studio : Créer des chunks ou le code sera executé en SQL !
+
+Cette solution simple permet de copier+coller directement vos requêtes dans un chunk. Cela dit, vous devrez au préalable effectuer la connexion avec la base de données.
+
+## 1) Effectuer une requête SQL dans R à l'aide d'un chunk dédié.
+
+Insérons un chunk sql et sélectionnons les voitures à plus de 150 chevaux et consommant moins de 18 gallons par mile.
+
+```{sql, connection=con, output.var = "mt_cars_df_2"}
+  SELECT *
+  FROM mtcars
+  WHERE hp > 150 AND mpg < 18
+```
+
+Dans l'entête de ce chunk à la place de **{r}** j'ai mis : **{sql, connection=con, output.var = "mt_cars_df_2"}**
+
+Notez que la connection à été faite avec "connection = con", et que le résultat de la requête à été stocké dans "mt_cars_df_2", directement dans R studio !
+
+## 2) Analyser
+
+Tout comme avant, on peut analyser le résultat "mt_cars_df_2" directement en R.
+
+```{r}
+ggplot(mt_cars_df_2) +
+ aes(x = `car name`, y = mpg, fill = hp) +
+ geom_col() +
+ scale_fill_gradient() +
+ theme_minimal()+
+ labs(x = "C'est quoi ta bagnole ?", y = "Conso' de fioul !", fill = 
+        "Nombre de chevals \n dans l'moteur !") +
+ theme(axis.text.x = element_text(size = 8, angle = 60, hjust = 1))
+```
+
+# IV) Méthode 3 : SQL & Dplyr !
+
+Tu sais mieux coder en R qu'en SQL ? Cette solution est faite pour toi !
+
+```{r}
+library(dbplyr)
+library(dplyr)
+```
+
+Ici, on utilise le package dbplyr pour rédiger des commandes dplyr standard qui seront converties en SQL ! Une fois de plus, en utilisant la connexion et la base de données du premier exemple, vous pouvez rédiger un appel standard à la fonction filter() pour interroger les voitures avec quatre cylindres, cela renvoie un objet de type liste :
+
+```{r}
+#On commence par faire la connection à la bonne base de données :
+dbplyr_query <- tbl(con, "mtcars") %>% 
+  # Puis on pipe une action, ici la fonction filter, 
+  # comme on le ferait sur n'importe quel jeu de données. 
+  filter(hp > 150 && mpg < 18)
+```
+
+Et comme notre "connection" (con) ici est une pool, on peut également utiliser dplyr directement dessus :
+
+```{r}
+dbplyr_query <- con %>% tbl("mtcars") %>% 
+  # Puis on pipe une action, ici la fonction filter, 
+  # comme on le ferait sur n'importe quel jeu de données. 
+  filter(hp > 150 && mpg < 18)
+```
+
+Si vous souhaitez voir la traduction en code SQL de votre commande, vous pouvez utiliser la fonction show_query() du package dbplyr :
+
+```{r}
+show_query(dbplyr_query)
+```
+
+Lorsque vous êtes satisfait des résultats de votre requête, vous utilisez la fonction collect() du package dbplyr pour sauvegarder vos résultats sous forme de dataframe :
+
+```{r}
+tibble_from_dbplyr <- tbl(con, "mtcars") %>% 
+  filter(hp > 150 && mpg < 18) %>% 
+  collect()
+```
+
+Et voila ! Avec ce tableau, on peut continuer nos analyses.
+
+Par exemple, y-aurait-il une corrélation entre le nombre de KM parcourus avec un gallon (la conso' donc) et la puissance dans nos voitures ?
+
+```{r}
+cor.test(x = tibble_from_dbplyr$mpg, tibble_from_dbplyr$hp, "less", "pearson")
+```
+
+Hé ben pas tellement on dirait ! Les grosses voitures que nous avons sélectionné doivent toutes polluer autant les unes que les autres :)
+
+# V) Exemple sur une BDD de l'ISEE
+
+Voyons voir ce que cela donne dans la vie réelle, c'est à dire en utilisant une BDD de l'ISEE.
+
+La BDD en question est AdventureWorks. C'est une BDD mise à disposition par Microsoft pour faire des tests.
+
+```{r}
+library(odbc)
+odbcListDrivers()
+# Vu que ce script est public, je ne peux pas partager le nom du serveur. 
+# J'ai donc stocké cette donnée dans un fichier texte auquel vous n'aurez pas accès. 
+# Si vous voulez reproduire l'exemple, c'est simple, il suffit de demander le nom de serveur aux collègues !
+
+Donnees_confidentielles <- read_delim("Donnees_confidentielles.txt", 
+    delim = "\t", escape_double = FALSE, 
+    trim_ws = TRUE)
+
+nom_serveur_test <- as.character(Donnees_confidentielles[2,2])
+
+
+
+# Créer une connection vers AdventureWorks2016 ! 
+
+CON_AW2016 <- dbConnect(odbc(), 
+                        Driver = "SQL Server", 
+                        Server = nom_serveur_test, 
+                        Database = "AdventureWorks2016",
+                        Trusted_Connection = "True")       
+# La trusted connection fonctionne car vous êtes déjà authentifié sur votre session windows :) 
+
+dbListTables(CON_AW2016)
+```
+
+A noter que vous pouvez utiliser autre chose que RSQLite (pour du MySQL, PostGre, etc...)
+
+```{r}
+MyAdventure2016_db <- CON_AW2016 %>% 
+  tbl(in_schema("Sales", "CreditCard")) %>% 
+  # Puis on pipe une action, ici la fonction filter, 
+  # comme on le ferait sur n'importe quel jeu de données. 
+  filter(CreditCardID < 300) 
+```
+
+Ce qui est génial, c'est que la commande ci-dessus ne stocke pas les données sur R, car les données restent stockées sur le server ! En fait, cette commande ne touche même pas à la base de données du server, tant qu'on ne demande pas d'afficher les résultats, comme ceci :
+
+```{r}
+MyAdventure2016_db
+```
+
+Et cela ne nous empêche pas de faire ce qu'on veut avec, comme par exemple faire un plot :
+
+```{r}
+ggplot(as.data.frame(MyAdventure2016_db)) +
+  aes(x = CardType) +
+  geom_bar(fill = "#112446") +
+  theme_minimal() +
+  facet_wrap(vars(ExpYear))
+```
+
+Maintenant qu'on a bien peaufiné notre "requête" (écrite par nous même en R avec la syntaxe *dplyr*, mais traduite en SQL par *dbplyr*), on peut collecter les données. Notez bien que, tant qu'on n'a pas explicitement dit à *dbplyr* de "collecter" les données, tout reste sur le server ! Pour traiter les données sur R ou pour tout autre raison, vous pouvez collecter les données comme ceci :
+
+```{r}
+MyAdventure2016 <- MyAdventure2016_db %>% 
+  collect()
+```
+
+Si vous souhaitez voir la traduction en code SQL de votre commande, vous pouvez utiliser la fonction show_query() du package dbplyr :
+
+```{r}
+show_query(MyAdventure2016_db)
+```
+
+Et voila, nous avons une table sur laquelle opérer !
+
+Mettons que je veuille supprimer une ligne.
+
+<font color = "red">Evidemment, rappelez-vous que <u><b>vous portez l'entière responsabilité des commandes SQL que vous lancez sur les bases de données</u></b>. Si vous avez un doute sur votre syntaxe, faites la vérifier ! </font>
+
+Malheureusement, *dbplyr* ne fait pas tout ! En fait, il se concentre surtout sur les SELECT et ses dérivés.Nous devrons utiliser la première méthode (I), décrite plus haut.
+
+```{r}
+# Supposons que vous voulez mettre à jour la colonne 'CardType' où 'CreditCardID' est égal à 1
+update_query <- "UPDATE Sales.CreditCard SET CardType = 'NouveauType' WHERE CreditCardID = 1"
+
+# Exécuter la requête pour mettre à jour la table dans la base de données
+# dbExecute(CON_AW2016, update_query)
+```
+
+Ici, cela ne fonctionne pas : Nous n'avons pas les droits ! Mais vous voyez l'idée, remplacez seulement votre requête SQL entre guillements.
+
+# VI) Fermez la connection !
+
+Avoir trop de connections à une base de données, surtout si elles sont inutilisées, c'est mauvais (Pour la sécurité, la performance, etc).
+
+On va donc fermer notre pool :
+
+```{r}
+# Fermer la pool de connexions
+pool::poolClose(con)
+```
+
+N'oubliez pas de le faire !
+
+# VII) Liens utiles
+
+Les bases de dbplyr : [Les bases de DPLYR](https://dbplyr.tidyverse.org/articles/dbplyr.html)
+
+|     |
+|:---:|
+| FIN |
+
+J'espère que cela vous aura été utile.
+
+N'hésitez pas à me contacter en cas de problème, ni à améliorer votre pratique à l'aide des forums et des IA !
+
+Bon code !

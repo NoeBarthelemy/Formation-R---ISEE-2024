@@ -1,0 +1,3 @@
+variable	valeur
+nom_serveur_prod	sql-data\source
+nom_serveur_test	sql-data\test

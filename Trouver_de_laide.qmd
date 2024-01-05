@@ -5,16 +5,24 @@ editor: visual
 sidebar: false
 ---
 
-TOUS les utilisateurs de R rencontrent de temps en temps des problèmes. La différence entre les bons et les moins bons se fait avec la capacité à trouver les ressources pour résoudre ce problème **rapidement**.
+<br>
+
+TOUS les utilisateurs de R rencontrent de temps en temps des problèmes.\
+La différence entre les bons et les moins bons se fait avec la capacité à trouver les ressources pour résoudre ce problème **rapidement**.
 
 Souvenez vous donc : Vous **n'avez pas à apprendre quoi que ce soit par coeur sur R**.\
 Il faut simplement savoir ou chercher (et c'est vrai pour l'usage de beaucoup d'outils informatiques).
 
 Voici une liste de liens qui vous aideront à résoudre vos problèmes.
 
+<br>
+
 1.  **La COMARSSS !**
 
-    Vous avez la chance d'avoir une communauté apprenante dédiée à l'utilisation de R au sein de l'ISEE. Il est très probable que vous y trouviez les réponses à vos questions, et même plus encore !
+    Vous avez la chance d'avoir une communauté apprenante dédiée à l'utilisation de R au sein de l'ISEE.\
+    Il est très probable que vous y trouviez les réponses à vos questions, et même plus encore !
+
+    [J'y vais !](https://teams.microsoft.com/l/channel/19%3A3dbc1a3b122e4e4e9d56ed4eb7f5a13b%40thread.tacv2/R?groupId=be6ef5f4-b02f-45b6-ba08-91f6947291ef&tenantId=)
 
 2.  **R Documentation officielle :**
 
@@ -26,13 +34,15 @@ Voici une liste de liens qui vous aideront à résoudre vos problèmes.
 
 4.  **Stack Overflow :**
 
-    -   [R sur Stack Overflow](https://stackoverflow.com/questions/tagged/r): Une communauté active où les programmeurs posent des questions et partagent leurs connaissances. Assurez-vous de consulter les questions déjà posées avant de poster la vôtre.
+    -   [R sur Stack Overflow](https://stackoverflow.com/questions/tagged/r): Une communauté active où les programmeurs posent des questions et partagent leurs connaissances.\
+        Assurez-vous de consulter les questions déjà posées avant de poster la vôtre.
 
 5.  **Coursera et DataCamp :**
 
     -   [Coursera - R Programming](https://www.coursera.org/learn/r-programming)
 
-    -   [DataCamp - R Courses](https://www.datacamp.com/courses/tech:r): Ces plateformes offrent des cours en ligne sur R. Les forums de discussion associés à ces cours peuvent être utiles pour obtenir de l'aide.
+    -   [DataCamp - R Courses](https://www.datacamp.com/courses/tech:r): Ces plateformes offrent des cours en ligne sur R.\
+        Les forums de discussion associés à ces cours peuvent être utiles pour obtenir de l'aide.
 
 6.  **GitHub :**
 
@@ -50,7 +60,11 @@ Voici une liste de liens qui vous aideront à résoudre vos problèmes.
 
     -   Les groupes et les pages liés à R sur des plateformes telles que Twitter, LinkedIn et Facebook peuvent également être des sources utiles d'information et de support.
 
+<br><br>
+
 Voici également une liste de lien intéressants, collectés ça et la ...
+
+<br>
 
 **Utilisation de R studio :**
 
@@ -83,3 +97,12 @@ Voici également une liste de lien intéressants, collectés ça et la ...
 -   [Introduction to R Markdown (rstudio.com)](https://rmarkdown.rstudio.com/articles_intro.html "https://rmarkdown.rstudio.com/articles_intro.html") 
 
 -   [rmarkdown :: Cheatsheet (rstudio.github.io)](https://rstudio.github.io/cheatsheets/html/rmarkdown.html?_gl=1*1x39n9r*_ga*MjAwMzE0NDI0MC4xNjk0MDU0MDkx*_ga_2C0WZ1JHG0*MTY5Njg5NDk3Ni4zLjEuMTY5Njg5NTU5NS4wLjAuMA.. "https://rstudio.github.io/cheatsheets/html/rmarkdown.html?_gl=1*1x39n9r*_ga*mjawmze0ndi0mc4xnjk0mdu0mdkx*_ga_2c0wz1jhg0*mty5njg5ndk3ni4zljeumty5njg5ntu5ns4wljauma..") 
+
+<br><br>
+
+Et enfin, quelques "bouquins" (PDF) extrêmement intéressants pour pousser votre usage de R :
+
+\[1\] Emmanuel Paradis (12 septembre 2005) http://cran.r-project.org/doc/contrib/Paradis-rdebuts_fr.pdf\
+\[2\] Denis Poinsot (2005). http://www.info.univ-angers.fr/\~gh/tuteurs/r_pour_les_statophobes.pdf\
+\[3\] Cornillon P.A., Guyader A., Husson F., Jégou N., Josse J., Kloareg M., Matzner-Løber E., Rouvière L. (2012) Statistique avec R. ISBN-13: 978-2753519923\
+\[4\] Gael millot (2014) Comprendre et réaliser les tests statistiques à l'aide de R : Manuel de biostatistiques ISBN-13: 978-2804184988

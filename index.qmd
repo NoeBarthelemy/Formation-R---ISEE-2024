@@ -4,19 +4,17 @@ format: html
 editor: visual
 ---
 
+<br><br>
+
 Bienvenue sur mon petit site dédié à la formation sur R à l'ISEE !
 
-Evidemment, il existe des centaines de sites pour se former à l'usage de R, dont beaucoup sont surement mieux construits que le mien. En revanche, ce que n'ont pas ces sites, c'est la capacité à s'adapter à vous, statisticiens de l'ISEE. Ici, j'essaiera de couvrir toute la formation de base, puis je rajouterai du contenu en fonction de vos demandes. Nous utiliserons même les données du recensement comme jeu de données pour les examples, afin que ça vous parle :)
+Evidemment, il existe des centaines de sites pour se former à l'usage de R, dont beaucoup sont surement mieux construits que le mien. En revanche, ce que n'ont pas ces sites, c'est la capacité à s'adapter à vous, statisticiens de l'ISEE. Ici, j'essaierai de couvrir la formation de base, puis je rajouterai du contenu en fonction de vos demandes. Nous utiliserons même les données du recensement comme jeu de données pour les exemples, afin que ça vous parle :)
 
 Au cours de cette formation, nous plongerons donc dans les bases de R, en commençant par la compréhension de l'environnement de travail R Studio, puis jusqu'à la manipulation de données, la création de graphiques et l'exécution d'analyses statistiques plus poussées.
 
-Voici un sommaire de cette formation :
+<br><br>
 
-1.  Module 1 : Les bases (R studio, c'est quoi, comment l'utiliser ?)
-
-2.  Module 2 :
-
-```{r, echo = F, warning=F}
+```{r, echo = F, warning=F, message=FALSE}
 # Installer et charger la bibliothèque ggplot2 (si vous ne l'avez pas déjà)
 # install.packages("ggplot2")
 library(ggplot2)
@@ -35,7 +33,7 @@ data <- data.frame(Participants = participants,
 ggplot(data, aes(x = Suivi_Formation, y = Progression_en_R)) +
   geom_point(size = 1, color = "#000000") +
   geom_smooth(method = "lm", color = "#EA3131", se = FALSE) +
-  labs(title = "Corrélation entre Suivi de Formation et Progression en R",
+  labs(title = "Corrélation entre suivi de formation et progression en R",
        x = "% de suivi des formations sur ce super site",
        y = "% de progression en R") +
   theme_minimal() +
@@ -43,5 +41,7 @@ ggplot(data, aes(x = Suivi_Formation, y = Progression_en_R)) +
   coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
 
 ```
+
+<br><br><br>
 
 Noé Barthelemy - Référent R à l'ISEE (2023-2024)

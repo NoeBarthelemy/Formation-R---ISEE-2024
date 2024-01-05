@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -86,6 +120,10 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">La formation R</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./Fonctions_utiles.html" rel="" target="">
+ <span class="menu-text">Fonctions utiles &amp; exemples</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./Trouver_de_laide.html" rel="" target="">
  <span class="menu-text">Besoin d’aide ?</span></a>
   </li>  
@@ -99,12 +137,12 @@ ul.task-list li input[type="checkbox"] {
       <a href="" title="" id="quarto-navigation-tool-dropdown-0" class="quarto-navigation-tool dropdown-toggle px-1" data-bs-toggle="dropdown" aria-expanded="false" aria-label=""><i class="bi bi-github"></i></a>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="quarto-navigation-tool-dropdown-0">
           <li>
-            <a class="dropdown-item quarto-navbar-tools ms-auto-item" href="https://code.com">
+            <a class="dropdown-item quarto-navbar-tools ms-auto-item" href="https://github.com/NoeBarthelemy">
             Ma page github
             </a>
           </li>
           <li>
-            <a class="dropdown-item quarto-navbar-tools ms-auto-item" href="https://bugs.com">
+            <a class="dropdown-item quarto-navbar-tools ms-auto-item" href="https://github.com/NoeBarthelemy/Formation-R---ISEE-2024/tree/34caac27f3d72bfecaac51aeb44c894d4cbc45ff">
             Code source du site
             </a>
           </li>
@@ -163,6 +201,30 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Cours N°2 : Analyse du RP</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_Cours_3_Rmarkdown.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cours N°3 : Rmarkdown</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_Cours_4_Tidyverse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cours N°4 : Le Tidyverse</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_Cours_5_DataViz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cours N°5 : Data Viz’</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_Cours_6_SQL_et_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cours N°6 : SQL &amp; R</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -176,19 +238,31 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#i---r-et-rstudio-cest-quoi-en-fait" id="toc-i---r-et-rstudio-cest-quoi-en-fait" class="nav-link" data-scroll-target="#i---r-et-rstudio-cest-quoi-en-fait">I - R et Rstudio, c’est quoi en fait ?</a>
   <ul class="collapse">
-  <li><a href="#pourquoi-je-devrais-utiliser-r" id="toc-pourquoi-je-devrais-utiliser-r" class="nav-link" data-scroll-target="#pourquoi-je-devrais-utiliser-r">Pourquoi je devrais utiliser R ?</a></li>
-  <li><a href="#r-a-bien-des-inconvénients-non" id="toc-r-a-bien-des-inconvénients-non" class="nav-link" data-scroll-target="#r-a-bien-des-inconvénients-non"><strong>R a bien des inconvénients, non ?</strong></a></li>
-  <li><a href="#pourquoi-ne-pas-simplement-utiliser-excel" id="toc-pourquoi-ne-pas-simplement-utiliser-excel" class="nav-link" data-scroll-target="#pourquoi-ne-pas-simplement-utiliser-excel">Pourquoi ne pas simplement utiliser Excel ?</a></li>
+  <li><a href="#i.i---pourquoi-je-devrais-utiliser-r" id="toc-i.i---pourquoi-je-devrais-utiliser-r" class="nav-link" data-scroll-target="#i.i---pourquoi-je-devrais-utiliser-r">I.I - Pourquoi je devrais utiliser R ?</a></li>
+  <li><a href="#i.ii---r-a-bien-des-inconvénients-non" id="toc-i.ii---r-a-bien-des-inconvénients-non" class="nav-link" data-scroll-target="#i.ii---r-a-bien-des-inconvénients-non">I.II - R a bien des inconvénients, non ?</a></li>
+  <li><a href="#i.iii---pourquoi-ne-pas-simplement-utiliser-excel" id="toc-i.iii---pourquoi-ne-pas-simplement-utiliser-excel" class="nav-link" data-scroll-target="#i.iii---pourquoi-ne-pas-simplement-utiliser-excel">I.III - Pourquoi ne pas simplement utiliser Excel ?</a></li>
   </ul></li>
   <li><a href="#ii---créer-son-premier-projet-dans-rstudio." id="toc-ii---créer-son-premier-projet-dans-rstudio." class="nav-link" data-scroll-target="#ii---créer-son-premier-projet-dans-rstudio.">II - Créer son premier projet dans Rstudio.</a>
   <ul class="collapse">
-  <li><a href="#présentation-de-lenvironnement-rstudio" id="toc-présentation-de-lenvironnement-rstudio" class="nav-link" data-scroll-target="#présentation-de-lenvironnement-rstudio">Présentation de l’environnement Rstudio :</a></li>
+  <li><a href="#ii.i---créer-un-projet-rstudio" id="toc-ii.i---créer-un-projet-rstudio" class="nav-link" data-scroll-target="#ii.i---créer-un-projet-rstudio">II.I - Créer un projet Rstudio</a></li>
+  <li><a href="#ii.ii---présentation-de-lenvironnement-rstudio" id="toc-ii.ii---présentation-de-lenvironnement-rstudio" class="nav-link" data-scroll-target="#ii.ii---présentation-de-lenvironnement-rstudio">II.II - Présentation de l’environnement Rstudio :</a></li>
   </ul></li>
   <li><a href="#iii---mon-premier-script-r" id="toc-iii---mon-premier-script-r" class="nav-link" data-scroll-target="#iii---mon-premier-script-r">III - Mon premier script R</a></li>
   <li><a href="#iv---les-opérations-de-bases-en-r" id="toc-iv---les-opérations-de-bases-en-r" class="nav-link" data-scroll-target="#iv---les-opérations-de-bases-en-r">IV - Les opérations de bases en R</a>
   <ul class="collapse">
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  <li><a href="#iv.i---les-opérateurs" id="toc-iv.i---les-opérateurs" class="nav-link" data-scroll-target="#iv.i---les-opérateurs">IV.I - Les opérateurs</a></li>
+  <li><a href="#iv.ii---les-variables" id="toc-iv.ii---les-variables" class="nav-link" data-scroll-target="#iv.ii---les-variables">IV.II - Les variables</a></li>
+  <li><a href="#iv.iii---les-types-de-variables-et-dobjets" id="toc-iv.iii---les-types-de-variables-et-dobjets" class="nav-link" data-scroll-target="#iv.iii---les-types-de-variables-et-dobjets">IV.III - Les types de variables et d’objets</a></li>
+  <li><a href="#iv.iv---les-vecteurs" id="toc-iv.iv---les-vecteurs" class="nav-link" data-scroll-target="#iv.iv---les-vecteurs">IV.IV - Les vecteurs</a></li>
   </ul></li>
+  <li><a href="#v---les-packages" id="toc-v---les-packages" class="nav-link" data-scroll-target="#v---les-packages">V - Les Packages</a>
+  <ul class="collapse">
+  <li><a href="#v.i---r-le-couteau-suisse-de-la-statistique" id="toc-v.i---r-le-couteau-suisse-de-la-statistique" class="nav-link" data-scroll-target="#v.i---r-le-couteau-suisse-de-la-statistique">V.I - R, le couteau suisse de la statistique</a></li>
+  <li><a href="#v.ii---télécharger-en-installer-un-package" id="toc-v.ii---télécharger-en-installer-un-package" class="nav-link" data-scroll-target="#v.ii---télécharger-en-installer-un-package">V.II - Télécharger en installer un <em>package</em></a></li>
+  <li><a href="#v.iii---en-savoir-plus-sur-le-contenu-dun-package" id="toc-v.iii---en-savoir-plus-sur-le-contenu-dun-package" class="nav-link" data-scroll-target="#v.iii---en-savoir-plus-sur-le-contenu-dun-package">V.III - En savoir plus sur le contenu d’un <em>package</em></a></li>
+  <li><a href="#v.iv---charger-les-packages" id="toc-v.iv---charger-les-packages" class="nav-link" data-scroll-target="#v.iv---charger-les-packages">V.IV - Charger les <em>packages</em></a></li>
+  </ul></li>
+  <li><a href="#vi---les-fonctions" id="toc-vi---les-fonctions" class="nav-link" data-scroll-target="#vi---les-fonctions">VI - Les fonctions</a></li>
   <li><a href="#sources" id="toc-sources" class="nav-link" data-scroll-target="#sources">Sources</a></li>
   </ul>
 </nav>
@@ -219,75 +293,499 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p><br></p>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
 <p>Bienvenue dans le Module 1 de notre formation R, dédié aux fondamentaux de ce langage de programmation puissant dédié à l’analyse statistique et à la manipulation de données. En tant que statisticien au sein de l’Institut des Statistiques et des Études Économiques (ISEE), vous êtes sur le point d’acquérir des compétences essentielles qui vous permettront de maîtriser R et d’exploiter son potentiel exceptionnel.</p>
 <p>Dans ce module, nous allons découvrir LES BASES de R et Rstudio. Il est donc destiné aux débutants !</p>
 <p>Prenez le temps d’explorer, posez des questions (sur la Communauté apprenante ou directement à votre référent R !) et surtout, pratiquez autant que possible.</p>
+<p><br></p>
 </section>
 <section id="i---r-et-rstudio-cest-quoi-en-fait" class="level1">
 <h1>I - R et Rstudio, c’est quoi en fait ?</h1>
 <p>Imaginez R comme une boîte à outils spéciale conçue pour travailler avec des données et effectuer des analyses statistiques. C’est un langage de programmation que vous pouvez utiliser pour dire à votre ordinateur quoi faire avec vos informations. Tout simplement.</p>
 <p>Si vous avez une grande quantité de données à trier, analyser ou visualiser, R sera votre meilleur ami !</p>
 <p>Pensez à R Studio comme à un bureau bien organisé où vous pouvez utiliser R de manière plus conviviale. Il offre une interface utilisateur qui facilite l’écriture de vos instructions et la visualisation des résultats.</p>
-<section id="pourquoi-je-devrais-utiliser-r" class="level2">
-<h2 class="anchored" data-anchor-id="pourquoi-je-devrais-utiliser-r">Pourquoi je devrais utiliser R ?</h2>
+<p><br></p>
+<section id="i.i---pourquoi-je-devrais-utiliser-r" class="level2">
+<h2 class="anchored" data-anchor-id="i.i---pourquoi-je-devrais-utiliser-r">I.I - Pourquoi je devrais utiliser R ?</h2>
 <ul>
 <li><p><strong>R est gratuit et open source !</strong> Vous pourrez donc l’utiliser partout, et il est personnalisable.</p></li>
-<li><p><strong>La commaunauté</strong> de R est GIGANTESQUE et experte. Donc, dès que vous avez un problème, vous trouverez une réponse sur internet.</p></li>
+<li><p><strong>La communauté</strong> de R est GIGANTESQUE et experte. Donc, dès que vous avez un problème, vous trouverez une réponse sur internet.</p></li>
 <li><p><strong>Les packages</strong> : Grâce à sa communauté, R bénéficie des milliers de packages, qui ajoutent des fonctionnalités spécifiques. On peut (presque) TOUT faire avec R.</p></li>
 <li><p><strong>La reproductibilité</strong> : Une analyse rigoureuse, c’est celle qu’on peut reproduire à l’identique, et modifier à l’envie. Grâce aux scripts, R permet cela.</p></li>
 <li><p><strong>La puissance</strong> : R est extrêmement puissant pour les calculs statistiques.</p></li>
 <li><p><strong>Visualisation de Données :</strong> R excelle dans la création de graphiques et de visualisations de données de qualité professionnelle. Vous pouvez créer une grande variété de graphiques pour explorer et présenter vos résultats.</p></li>
 </ul>
+<p><br></p>
 </section>
-<section id="r-a-bien-des-inconvénients-non" class="level2">
-<h2 class="anchored" data-anchor-id="r-a-bien-des-inconvénients-non"><strong>R a bien des inconvénients, non ?</strong></h2>
+<section id="i.ii---r-a-bien-des-inconvénients-non" class="level2">
+<h2 class="anchored" data-anchor-id="i.ii---r-a-bien-des-inconvénients-non">I.II - R a bien des inconvénients, non ?</h2>
 <ol type="1">
 <li><p><strong>Courbe d’apprentissage :</strong> Pour les débutants, R peut avoir une courbe d’apprentissage abrupte, en particulier si vous n’avez pas d’expérience en programmation. Cependant, cela peut être surmonté avec la pratique et l’utilisation régulière (et en allant au bout de ce tutoriel !).</p></li>
 <li><p><strong>Interface Utilisateur :</strong> Bien que R Studio facilite l’utilisation de R, certains débutants peuvent trouver l’interface un peu intimidante au début, surtout s’ils ne sont pas habitués à la programmation. Vous verrez qu’elle est finalement assez simple.</p></li>
 <li><p><strong>Documentation dispersée :</strong> La documentation de R est souvent disséminée à travers diverses sources en ligne, ce qui peut rendre la recherche d’informations spécifiques parfois un peu complexe. Mais au final, on s’en sors très bien, vous verrez !</p></li>
 </ol>
+<p><br></p>
 </section>
-<section id="pourquoi-ne-pas-simplement-utiliser-excel" class="level2">
-<h2 class="anchored" data-anchor-id="pourquoi-ne-pas-simplement-utiliser-excel">Pourquoi ne pas simplement utiliser Excel ?</h2>
+<section id="i.iii---pourquoi-ne-pas-simplement-utiliser-excel" class="level2">
+<h2 class="anchored" data-anchor-id="i.iii---pourquoi-ne-pas-simplement-utiliser-excel">I.III - Pourquoi ne pas simplement utiliser Excel ?</h2>
 <p>C’est la remarque standard ! En effet, Excel est un bel outil, puissant également, et abordable <strong>dans ses fonctions de base</strong>. Si vous n’utilisez Excel que pour copier coller quelques données et faire un tableau à l’occasion, vous n’avez probablement pas besoin de R. De plus, ces outils sont <strong>complémentaires</strong>, on ne les utilisera pas pour faire les mêmes choses.</p>
 <p>Cependant, après quelques efforts à l’apprentissage, R vous permettra de faire bien plus de choses que Excel, de manière plus intuitive. En pratiquant l’analyse de données, vous atteindrez <strong>très vite</strong> vos limites avec Excel (à moins d’y passer des nuits entières). En revanche, la plupart des utilisateurs de R n’atteindront jamais de leur vie les limites de l’outil en termes de puissances et de créativité.</p>
 <p>Au final, vous ferez plus de choses, vous les ferez mieux, et plus rapidement.</p>
 <p>Convaincus ?</p>
+<p><br></p>
 </section>
 </section>
 <section id="ii---créer-son-premier-projet-dans-rstudio." class="level1">
 <h1>II - Créer son premier projet dans Rstudio.</h1>
-<section id="présentation-de-lenvironnement-rstudio" class="level2">
-<h2 class="anchored" data-anchor-id="présentation-de-lenvironnement-rstudio">Présentation de l’environnement Rstudio :</h2>
+<section id="ii.i---créer-un-projet-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="ii.i---créer-un-projet-rstudio">II.I - Créer un projet Rstudio</h2>
+<p>Sur Rstudio, on fonctionne avec des projets. Pourquoi ?</p>
+<ol type="1">
+<li><p><strong>Organisation :</strong> Les projets permettent d’organiser vos fichiers, données et scripts au sein d’une structure cohérente, facilitant la gestion et la collaboration.</p></li>
+<li><p><strong>Isolation :</strong> Chaque projet a son propre environnement, isolant les dépendances spécifiques du projet et évitant les conflits entre différents projets.</p></li>
+<li><p><strong>Gestion des fichiers :</strong> Les projets facilitent la gestion des fichiers en fournissant une vue globale du projet, permettant une navigation et une recherche plus aisées.</p></li>
+<li><p><strong>Reproductibilité :</strong> En utilisant des projets, vous assurez une reproductibilité plus facile en encapsulant tous les éléments nécessaires à votre analyse au sein d’un seul environnement.</p></li>
+<li><p><strong>Collaboration :</strong> Les projets simplifient la collaboration en regroupant tous les éléments nécessaires et en facilitant le partage avec d’autres utilisateurs.</p></li>
+</ol>
+<p>Pour en créer un, rien de plus facile :</p>
+<ol type="1">
+<li><p>Allez dans Fichiers –&gt; Nouveau projet.</p></li>
+<li><p>Choisissez <em>New directory</em> (Nouveau dossier).</p></li>
+<li><p>Choisissez <em>New project</em> (Nouveau projet).</p></li>
+<li><p>Donnez lui un nom et choisissez où il sera stocké.</p></li>
+</ol>
+<p><br><br></p>
+<p>Maintenant, il va falloir organiser vos fichiers correctement.</p>
+<p>A l’ISEE, nous avons une norme <strong>que vous devez respecter</strong>, et vous la trouverez dans cette fiche des bonnes pratiques avec R et R studio : <a href="./Charte_bonnes_pratiques.html">Fiche des bonnes pratiques avec R et Rstudio</a> – Pensez à la relire de temps en temps !</p>
+<p>En résumé, le projet doit comporter 4 dossiers :</p>
+<ol type="1">
+<li><p><strong>01_code</strong> : Contient les scripts et autres fichiers directement liés au code.</p></li>
+<li><p><strong>02_donnees</strong> : Contient les données, la bibliographie, les dictionnaires de variables, etc.</p></li>
+<li><p><strong>03_exports</strong> : Tout ce qui est exporté du projet (Tableaux, figures, etc).</p></li>
+<li><p><strong>04_rapports</strong> : Contient les rapports d’analyse du projet et les fichiers associés.</p></li>
+</ol>
+<p><br><br></p>
+<p><strong>Autre astuce :</strong> N’hésitez pas à fouiller dans les menus, notamment dans “Outils –&gt; Options de projet”.<br>
+Vous y trouverez plein de moyens de configurer votre projet à votre convenance.</p>
+<p><br></p>
+<p><strong>Votre projet est prêt !</strong> <strong>Allons coder !</strong></p>
+<p><br></p>
+</section>
+<section id="ii.ii---présentation-de-lenvironnement-rstudio" class="level2">
+<h2 class="anchored" data-anchor-id="ii.ii---présentation-de-lenvironnement-rstudio">II.II - Présentation de l’environnement Rstudio :</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/interface_Rstudio.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Voici l’interface de Rstudio (crédit en suivant le lien)</figcaption>
+<figcaption class="figure-caption">Voici l’interface de Rstudio (crédit de l’image en suivant le lien)</figcaption>
 </figure>
 </div>
 <ul>
-<li><p>L’<em>Editeur</em> pour éditer votre code, enregistré dans des fichiers</p></li>
+<li><p>L’<em>Éditeur</em> pour éditer votre code, enregistré dans des fichiers</p></li>
 <li><p>La <em>Console</em> pour exécuter des lignes de code, écrites ici ou depuis le fichier source ouvert dans l’éditeur</p></li>
-<li><p>L’<em>Environment</em> : Les éléments/objets R que vous aurez créés lors de l’exécution du code. Et d’autres onglets dont la connexion à vos bases de données notamment.</p></li>
-<li><p>L’onglet <em>Files</em> pour la navigation dans les dossiers, notamment celui de votre projet. <em>Plots</em> pour l’affichage de graphique selon votre utilisation de vos scripts. <em>Packages</em> pour la liste des packages déjà installés sur la machine. <em>Help</em> pour l’aide des fonctions. <em>Viewer</em> pour afficher le contenu de pages HTML créées dans vos scripts.</p></li>
+<li><p>L’<em>Environnement</em> : Les éléments/objets R que vous aurez créés lors de l’exécution du code. Et d’autres onglets dont la connexion à vos bases de données notamment.</p></li>
+<li><p>L’onglet <em>Files</em> (ou Fichiers) pour la navigation dans les dossiers, notamment celui de votre projet. <em>Plots</em> pour l’affichage de graphique selon votre utilisation de vos scripts. <em>Packages</em> (ou Paquets) pour la liste des packages déjà installés sur la machine. <em>Help</em> pour l’aide des fonctions. <em>Viewer</em> pour afficher le contenu de pages HTML créées dans vos scripts.</p></li>
 </ul>
 </section>
 </section>
 <section id="iii---mon-premier-script-r" class="level1">
 <h1>III - Mon premier script R</h1>
+<p>Il est temps de créer un script.</p>
+<p>En fait, tout code peut être tapé dans la console directement, comme lorsqu’on utilise une calculatrice. Le script permet de conserver toutes nos actions (calculs, imports de données, commentaires, etc), et de les ré-exécuter à l’envie !</p>
+<ol type="1">
+<li><p>En dessous de “fichier”, en haut a gauche de l’interface de Rstudio, il y a un bouton qui symbolise une feuille blanche avec un + vert. Appuyez sur la petite flèche noire qui se trouve juste à sa droite : Vous voyez tous les types de créations que vous pouvez faire sur R !</p></li>
+<li><p>Commençons par un script de type Rmarkdown.</p></li>
+<li><p>Ajoutez un titre et votre nom en tant qu’auteur.ice.</p></li>
+<li><p>Cliquez sur “OK” !</p></li>
+</ol>
+<p><br></p>
+<p>Le résultat devrait correspondre à ceci :</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/PresentationRmarkdown-01.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Ecrire un script Rmarkdown, c’est très simple : C’est du texte, et du code.<br>
+On écris le texte directement sur le script (on peut mettre des titres, des listes, etc., voir encadré 1 dans l’image ci-dessus).<br>
+Quand on veut mettre du code, on appuie sur le bouton encerclé en rouge (2) et on choisis le langage souhaité.<br>
+Ici, on choisis R, mais notez la diversité de langages qui peuvent cohabiter au sein d’un même script.</p>
+<p><br></p>
+<p>C’est fait ?</p>
+<p>Voila, vous avez créé un <em>chunk</em>.<br>
+C’est dans ces encadrés que vous écrirez votre code. Vous pouvez lancer le code en appuyant sur la flèche verte en haut à droite du chunk.</p>
+<p>Maintenant, pensez à sauvegarder votre script (ctrl + s), et placez le dans votre dossier “01_code”.</p>
+<p>Gérer ses scripts sur Rmarkdown permet de faire énormément de choses comme exporter vos scripts en PDF ou Word (avec les figures, les commentaires et le code !), et bien d’autres choses.<br>
+Suivez le cours N°3 pour en savoir plus : <a href="./03_Cours_3_Rmarkdown.html">Cours N°3 : Rmarkdown</a></p>
+<p><br></p>
 </section>
 <section id="iv---les-opérations-de-bases-en-r" class="level1">
 <h1>IV - Les opérations de bases en R</h1>
-<section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section"></h2>
+<section id="iv.i---les-opérateurs" class="level2">
+<h2 class="anchored" data-anchor-id="iv.i---les-opérateurs">IV.I - Les opérateurs</h2>
+<p>Les opérateurs de R ressemblent à ceux d’autres langages de programmation. Certains opérateurs arithmétiques comprennent :</p>
+<ul>
+<li><p>+ addition</p></li>
+<li><p>- soustraction</p></li>
+<li><p>* multiplication</p></li>
+<li><p>/ division</p></li>
+<li><p>^ exponentiation</p></li>
+</ul>
+<p>Les opérateurs logiques comprennent :</p>
+<ul>
+<li><p>&gt; supérieur à</p></li>
+<li><p>&gt;= supérieur ou égal à</p></li>
+<li><p>== strictement égal à</p></li>
+<li><p>!= non égal à</p></li>
+</ul>
+<p>Essayons ! Créez un chunk avec le bouton, ou en entrant le raccourci “ctrl + alt + i”.</p>
+<p>Dans ce chunk, écrivez “1+2” et appuyez sur la flèche verte.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">+</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+<p>Voila ! Le résultat s’affiche sous le chunk.<br>
+Si on écris “1 == 2” on obtient “FALSE”. Ben oui, 1 n’est pas égal à 2.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">==</span> <span class="dv">2</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dans les chunks, vous pouvez écrire des commentaires tant qu'ils sont précédés d'un #.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
 </section>
+<section id="iv.ii---les-variables" class="level2">
+<h2 class="anchored" data-anchor-id="iv.ii---les-variables">IV.II - Les variables</h2>
+<p>Les variables sont utilisées pour stocker des données. Leur valeur peut être modifiée, utilisée et manipulée selon les besoins.<br>
+Un nom unique attribué à une variable (fonction ou objet également) est appelé identifiant.</p>
+<p>Pour déclarer une variable, nous devons lui assigner un nom.<br>
+Pour ça on utilise l’opérateur &lt;- .</p>
+<p>Essayons !</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>my_variable <span class="ot">&lt;-</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<blockquote class="blockquote">
+<p>Comment nommer les variables dans R ?</p>
+<ol type="1">
+<li><p><strong>Conventions de nommage :</strong></p>
+<ul>
+<li><p>Utilisez des noms descriptifs qui reflètent la nature de la variable.</p></li>
+<li><p>Évitez d’utiliser des noms trop courts ou trop longs. Optez pour une longueur de nom qui offre une clarté suffisante sans être excessive.</p></li>
+</ul></li>
+<li><p><strong>Utilisation de lettres minuscules :</strong></p>
+<ul>
+<li>Préférez les lettres minuscules pour les noms de variables. Par exemple, utilisez <strong><code>my_variable</code></strong> plutôt que <strong><code>My_Variable</code></strong>.</li>
+</ul></li>
+<li><p><strong>Utilisation de traits de soulignement :</strong></p>
+<ul>
+<li>Utilisez des traits de soulignement (<strong><code>_</code></strong>) pour séparer les mots dans un nom de variable. Par exemple, <strong><code>my_variable</code></strong>.</li>
+</ul></li>
+<li><p><strong>Éviter les noms réservés :</strong></p>
+<ul>
+<li>Évitez d’utiliser des noms qui sont déjà réservés pour des fonctions ou des objets en R.<br>
+Par exemple, ne nommez pas une variable <strong><code>if</code></strong> ou <strong><code>mean</code></strong>, car ce sont des noms de fonctions intégrées.</li>
+</ul></li>
+<li><p><strong>Éviter les caractères spéciaux :</strong></p>
+<ul>
+<li>Évitez d’utiliser des caractères spéciaux tels que <strong><code>$</code></strong>, <strong><code>%</code></strong>, ou <strong><code>&amp;</code></strong> dans les noms de variable.<br>
+Cela peut causer des problèmes de lecture et d’interprétation.</li>
+</ul></li>
+<li><p><strong>Utilisation de noms significatifs :</strong></p>
+<ul>
+<li>Choisissez des noms qui ont un sens dans le contexte de votre programme.<br>
+Évitez les noms génériques comme <strong><code>temp</code></strong> ou <strong><code>x</code></strong> sauf s’ils sont appropriés pour une utilisation temporaire.</li>
+</ul></li>
+</ol>
+</blockquote>
+<p>Maintenant, créons une deuxième variable et additionnons la à la première.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>my_variable2 <span class="ot">&lt;-</span> <span class="dv">10</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>my_variable <span class="sc">+</span> my_variable2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20</code></pre>
+</div>
+</div>
+<p>On peut stocker le résultat dans une nouvelle variable :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Total <span class="ot">&lt;-</span>  my_variable <span class="sc">+</span> my_variable2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p># Pour voir le contenu d’une variable, écrivez simplement son nom !</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Total</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="iv.iii---les-types-de-variables-et-dobjets" class="level2">
+<h2 class="anchored" data-anchor-id="iv.iii---les-types-de-variables-et-dobjets">IV.III - Les types de variables et d’objets</h2>
+<p>Les types de variables et d’objets sur R, c’est <strong>super important</strong>. En les connaissant, vous comprendrez mieux vos données et ce que vous pouvez faire avec.</p>
+<p>Pour connaitre le type d’une variable, tapez :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(my_variable)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+</div>
+<p>Essayons d’autres formats de variables :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable de type "character" </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>variable_texte <span class="ot">&lt;-</span> <span class="st">"Vive le vent d'hiver"</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(variable_texte)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+</div>
+<p>R propose plusieurs types de variables, chacun ayant ses spécificités.<br>
+Voici quelques-uns des types de variables couramment utilisés dans R :</p>
+<ol type="1">
+<li><strong>Numeric</strong> (numérique) :</li>
+</ol>
+<ul>
+<li><p>Représente les nombres réels.</p></li>
+<li><p>Exemple : `x &lt;- 42.5`.</p></li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Integer</strong> (entier) :</li>
+</ol>
+<ul>
+<li><p>Représente les nombres entiers.</p></li>
+<li><p>Exemple : `y &lt;- 42L` (la lettre “L” indique que c’est un entier).</p></li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Character</strong> (caractère) :</li>
+</ol>
+<ul>
+<li><p>Représente des chaînes de caractères.</p></li>
+<li><p>Exemple : `z &lt;- “Bonjour”`.</p></li>
+</ul>
+<ol start="4" type="1">
+<li><strong>Logical</strong> (logique) :</li>
+</ol>
+<ul>
+<li><p>Représente des valeurs logiques (Vrai/Faux).</p></li>
+<li><p>Exemple : `flag &lt;- TRUE`.</p></li>
+</ul>
+<ol start="5" type="1">
+<li><strong>Factor</strong> (facteur) :</li>
+</ol>
+<ul>
+<li><p>Utilisé pour représenter des variables catégorielles.</p></li>
+<li><p>Exemple : `gender &lt;- factor(c(“Homme”, “Femme”, “Homme”))`.</p></li>
+</ul>
+<ol start="6" type="1">
+<li><strong>Date</strong> (date) :</li>
+</ol>
+<ul>
+<li><p>Représente des dates.</p></li>
+<li><p>Exemple : `dob &lt;- as.Date(“1990-01-01”)`.</p></li>
+</ul>
+<ol start="7" type="1">
+<li><strong>Time</strong> (heure) :</li>
+</ol>
+<ul>
+<li><p>Représente des heures.</p></li>
+<li><p>Exemple : `timestamp &lt;- as.POSIXct(“2023-01-01 12:30:00”)`.</p></li>
+</ul>
+<p>Chaque type de variable a ses propres opérations et méthodes spécifiques. Par exemple, les opérations arithmétiques sont généralement utilisées avec des variables numériques, tandis que les opérations logiques sont utilisées avec des variables logiques.</p>
+<p>Il est important de comprendre les types de variables car cela affecte la manière dont les données sont stockées en mémoire et la manière dont les opérations sont effectuées.</p>
+<p>Par exemple, tapez “my_variable + variable_texte” dans un chunk et exécutez-le.<br>
+<br>
+Hé oui, on ne peut pas additionner une variable numérique avec une variable non numérique !</p>
+<p><br></p>
+</section>
+<section id="iv.iv---les-vecteurs" class="level2">
+<h2 class="anchored" data-anchor-id="iv.iv---les-vecteurs">IV.IV - Les vecteurs</h2>
+<p>Aaaah … les vecteurs. Il peut être compliqué de comprendre leur intérêt et leur nature, alors allons y pas à pas :</p>
+<p>Imaginez que vous ayez une boîte dans laquelle vous voulez stocker plusieurs valeurs, comme des nombres. Cette boîte est votre vecteur.</p>
+<ol type="1">
+<li><p><strong>Stockage ordonné :</strong> Un vecteur vous permet de stocker plusieurs valeurs de manière ordonnée. Par exemple, vous pouvez avoir un vecteur de notes pour chaque élève dans une classe.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exemple de vecteur de notes</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>notes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">18</span>,<span class="dv">19</span>,<span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+<li><p><strong>Accès facile aux éléments :</strong> Comme les éléments sont stockés de manière ordonnée, vous pouvez facilement accéder à chaque note en utilisant sa position dans le vecteur. Par exemple, la première note est à la position 1, la deuxième à la position 2, et ainsi de suite.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Afficher le 15ème élément grâce aux crochets.</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>notes[<span class="dv">15</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 14</code></pre>
+</div>
+</div></li>
+<li><p><strong>Opérations sur l’ensemble :</strong> Vous pouvez effectuer des opérations sur l’ensemble des notes en une seule fois. Par exemple, vous pourriez vouloir calculer la moyenne de toutes les notes. Avec un vecteur, cela se fait facilement.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crééons un autre vecteur de notes. La distribution de ces notes sera "normale" (au sens statistique), grâce à la fonction runif() et la définition de quelques paramètres.</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Prenons 150 notes</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Définir les paramètres</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">150</span>                <span class="co"># Nombre d'observations</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>borne_inf <span class="ot">&lt;-</span> <span class="dv">0</span>          <span class="co"># La note minimale c'est 0</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>borne_sup <span class="ot">&lt;-</span> <span class="dv">20</span>         <span class="co"># La note maximale c'est 20</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>moyenne_val <span class="ot">&lt;-</span> <span class="fl">12.5</span>     <span class="co"># Moyenne des notes</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>ecart_type_val <span class="ot">&lt;-</span> <span class="dv">9</span>     <span class="co"># Écart type</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Générer un échantillon aléatoire</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>uniforme_aleatoire <span class="ot">&lt;-</span> <span class="fu">runif</span>(n)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>echantillon_aleatoire <span class="ot">&lt;-</span> moyenne_val <span class="sc">+</span> ecart_type_val <span class="sc">*</span> <span class="fu">qnorm</span>(uniforme_aleatoire)</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Tronquer les valeurs pour qu'elles soient dans la plage spécifiée</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>echantillon_aleatoire <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="fu">pmin</span>(echantillon_aleatoire, borne_sup), borne_inf)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcul de la moyenne des notes</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>moyenne_echantillon <span class="ot">&lt;-</span> <span class="fu">mean</span>(echantillon_aleatoire)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>moyenne_echantillon</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12.47393</code></pre>
+</div>
+</div>
+<p>Le vecteur permet de traiter l’ensemble des données d’un coup, ce qui simplifie les calculs.</p></li>
+<li><p><strong>Facilité de manipulation :</strong> Vous pouvez ajouter, supprimer ou modifier des notes dans votre vecteur en fonction de l’évolution des données.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajout d'une nouvelle note </span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>notes <span class="ot">&lt;-</span> <span class="fu">c</span>(notes, <span class="dv">19</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></li>
+</ol>
+<p>Le vecteur offre une flexibilité pour gérer dynamiquement les données.</p>
+<p>En résumé, un vecteur en R est comme une boîte qui vous permet de stocker et d’organiser des données de manière ordonnée, avec la possibilité d’accéder facilement à chaque élément, de réaliser des opérations sur l’ensemble et de manipuler les données de manière souple. C’est un outil puissant pour travailler avec des ensembles de données dans R.</p>
+<p><br></p>
+</section>
+</section>
+<section id="v---les-packages" class="level1">
+<h1>V - Les Packages</h1>
+<section id="v.i---r-le-couteau-suisse-de-la-statistique" class="level2">
+<h2 class="anchored" data-anchor-id="v.i---r-le-couteau-suisse-de-la-statistique">V.I - R, le couteau suisse de la statistique</h2>
+<p>Les <em>packages</em> R sont des modules complémentaires qui ajoutent des fonctionnalités à R. Ces package sont crées par la communauté de R, qui les partage alors gratuitement. Souvent, un <em>package</em> répond aux besoins d’un domaine précis. Par exemple :</p>
+<ul>
+<li><p><strong>dplyr :</strong> Manipulation de données. Offre des fonctions simples et cohérentes pour filtrer, trier et agréger des données.</p></li>
+<li><p><strong>ggplot2 :</strong> Visualisation de données. Permet de créer des graphiques élégants et hautement personnalisables.</p></li>
+<li><p><strong>tidyr :</strong> Facilite la manipulation et la transformation de données en suivant les principes de la “tidy data”.</p></li>
+<li><p><strong>caret :</strong> Facilite l’entraînement de modèles prédictifs en fournissant une interface unifiée pour différents algorithmes.</p></li>
+<li><p><strong>randomForest :</strong> Machine Learning. Implémente l’algorithme Random Forest pour la classification et la régression.</p></li>
+<li><p><strong>shiny :</strong> Permet de créer des applications web interactives directement à partir de R.</p></li>
+<li><p><strong>lubridate :</strong> Manipulation de dates. Simplifie la manipulation et le traitement des objets de date et d’heure.</p></li>
+<li><p><strong>magrittr :</strong> Opérateurs pipe (%&gt;%). Facilite la composition de fonctions en utilisant des opérateurs pipe pour améliorer la lisibilité du code.</p></li>
+<li><p><strong>stringr :</strong> Manipulation de chaînes de caractères. Fournit des fonctions pour travailler efficacement avec des chaînes de caractères.</p></li>
+<li><p><strong>tidyverse :</strong> <strong>LE MEILLEUR PACKAGE</strong>. Regroupe plusieurs <em>packages</em>, dont dplyr, ggplot2, tidyr, etc., pour faciliter l’analyse de données en suivant les principes de “tidy data”. Ce package (merci <em>Hadley Wickham</em>) est incontournable et a rendu R bien plus facile à utiliser qu’auparavant.</p></li>
+</ul>
+<p>Ce sont des exemples, parmi les <strong>20 248 packages disponibles en 2023</strong>. Chaque <em>package</em> apporte son lot de fonctions. Ensemble, ils permettent à R d’effectuer quasiment tout type d’analyse, de la génétique des populations à la cartographie, en passant par la finance internationale.</p>
+<p>Les trois plateformes pour trouver des packages sont :</p>
+<ol type="1">
+<li><p><a href="https://cran.r-project.org/">CRAN - The Comprehensive R Archive Network</a></p></li>
+<li><p><a href="https://bioconductor.org/">Bioconductor - Open source software for Bioinformatics</a></p></li>
+<li><p><a href="https://github.com/">Github</a></p></li>
+</ol>
+<p>Il est important de noter que les packages ne sont généralement pas indépendants et peuvent dépendre d’autres packages pour certaines fonctionnalités, créant ainsi un réseau de dépendances entre eux.</p>
+<p><br></p>
+</section>
+<section id="v.ii---télécharger-en-installer-un-package" class="level2">
+<h2 class="anchored" data-anchor-id="v.ii---télécharger-en-installer-un-package">V.II - Télécharger en installer un <em>package</em></h2>
+<p>Un <em>package</em> s’installe très simplement :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>On peut aussi les gérer par l’onglet “<em>Packages</em>” du panneau en bas à droite de Rstudio.<br>
+Gérer les <em>packages</em>, c’est parfois (souvent) des prises de tête, alors, à l’ISEE, on fait le travail pour vous ! De fait, vous ne pouvez pas installer vos propres packages, il faudra passer par votre référent R (moi en 2024).</p>
+</section>
+<section id="v.iii---en-savoir-plus-sur-le-contenu-dun-package" class="level2">
+<h2 class="anchored" data-anchor-id="v.iii---en-savoir-plus-sur-le-contenu-dun-package">V.III - En savoir plus sur le contenu d’un <em>package</em></h2>
+<p>Pour en savoir plus sur un <em>package</em>, obtenir la liste des fonctions, des exemples d’usage etc, il suffit de taper “?<em>nomdupackage</em>” dans la console.<br>
+Ou alors, on peut taper son nom dans la barre de recherche de l’onglet packages.</p>
+<p>Par exemple :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>?DBI</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Aucune documentation pour 'DBI' n'a été trouvée dans les packages et les bibliothèques :
+vous pourriez essayer '??DBI'</code></pre>
+</div>
+</div>
+<p>Pour une fonction, c’est la même chose !</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>?rnorm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>démarrage du serveur d'aide httpd ... fini</code></pre>
+</div>
+</div>
+</section>
+<section id="v.iv---charger-les-packages" class="level2">
+<h2 class="anchored" data-anchor-id="v.iv---charger-les-packages">V.IV - Charger les <em>packages</em></h2>
+<p>Quand on écrit son script, on commence toujours par un <em>chunk</em> de chargement des packages. Comme on fait son sac pour aller au travail, on sélectionne ici tous les bons outils avant de démarrer. Si on doit en rajouter un plus tard, on le fera.</p>
+<p>On charge <strong>toujours</strong> les <em>packages</em> avec la fonction <strong><em>library</em></strong>.</p>
+<p>Par exemple :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.3     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Le chargement a nécessité le package : sp
+The legacy packages maptools, rgdal, and rgeos, underpinning the sp package,
+which was just loaded, will retire in October 2023.
+Please refer to R-spatial evolution reports for details, especially
+https://r-spatial.org/r/2023/05/15/evolution4.html.
+It may be desirable to make the sf package available;
+package maintainers should consider adding sf to Suggests:.
+The sp package is now running under evolution status 2
+     (status 2 uses the sf package in place of rgdal)
+
+Attachement du package : 'raster'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    select</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># etc ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Si vous oubliez de le faire, vous n’aurez tout simplement pas accès aux fonctions du <em>package</em> !</p>
+<p><br></p>
+</section>
+</section>
+<section id="vi---les-fonctions" class="level1">
+<h1>VI - Les fonctions</h1>
+<p>Essentiellement, tout en R est réalisé à l’aide de fonctions. Une fonction est un bloc de code écrit pour une tâche spécifique ou une série de tâches. Elle peut accepter des paramètres et peut retourner une valeur si définie.</p>
+<p>La structure d’une fonction est simple : Un nom, des arguments, et un corps.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>NOM <span class="ot">&lt;-</span> <span class="cf">function</span> ( ARGUMENTS ) { CORPS }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Par exemple :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Définition de la fonction d'addition : Elle additionne !</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>addition <span class="ot">&lt;-</span> <span class="cf">function</span>(a, b) {</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  resultat <span class="ot">&lt;-</span> a <span class="sc">+</span> b</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(resultat)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Appel de la fonction avec des arguments</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>Addition1 <span class="ot">&lt;-</span> <span class="fu">addition</span>(<span class="at">a =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">5</span>)</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Affichage du résultat</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(Addition1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8</code></pre>
+</div>
+</div>
+<p>Prenez le temps de regarder : la fonction s’appelle <strong>addition</strong> a deux arguments, <strong>a</strong> et <strong>b</strong>. Dans son corps, on code le calcul de <strong>a + b</strong>, et le fait de <strong>retourner</strong> (return) le résultat. Une fois la fonction fermée, on “l’appelle” par son nom, en donnant les deux arguments entre parenthèse : <strong>addition(a = 3, b = 5)</strong>.</p>
 </section>
 <section id="sources" class="level1">
 <h1>Sources</h1>
 <ul>
-<li><a href="https://thinkr.fr/debuter-avec-r-et-rstudio/#Presentation_de_linterface_de_RStudio">Débuter avec R et RStudio - ThinkR - Certification &amp; Formation langage R</a></li>
+<li><a href="https://www.educative.io/blog/r-tutorial-beginners-guide">Beginner’s guide to R</a></li>
 </ul>
 
 

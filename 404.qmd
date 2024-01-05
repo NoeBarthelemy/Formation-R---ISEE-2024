@@ -1,0 +1,8 @@
+---
+title: "404"
+---
+
+```         
+Zut, cette page n'existe plus ... 
+Tu peux toujours laisser un message sur GitHub et je la retrouverai ! 
+```

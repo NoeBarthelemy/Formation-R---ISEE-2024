@@ -5,6 +5,7 @@ format: html
 editor: visual
 execute: 
   eval: TRUE
+  warning: FALSE
 ---
 
 ```{r, echo= FALSE}
@@ -12,10 +13,17 @@ library(here)
 library(readr)
 library(ggplot2)
 library(tidyverse)
-here()
+library(dbplyr)
+library(dplyr)
+library(odbc)
 ```
 
 # Introduction
+
+Ce cours à pour but de vous montrer à quoi une simple analyse peut ressembler sous R, la manière dont on structure son script. Ne vous en faîtes pas si certains détails vous échappent, le but ici est de s'imprégner de la méthode de travail, et s'habituer à lire un peu de code. Travailler avec R demande de la pratique, une capacité à apprendre et une bonne dose de curiosité. Petit à petit, vous apprendrez à manipuler les données, les visualiser, les analyser.
+
+Bref. Ici, nous allons étudier le jeu de données OPEN DATA du RP 2019.\
+J'ai décrit ce jeu de données ici : [RP2019 - OPEN DATA](Jeu_de_donnees_RP2019.qmd)
 
 # Importation des données
 
@@ -55,13 +63,18 @@ RP2019NC_OD_ind_3Provinces <- rbind(RP2019NC_OD_ind_Iles, RP2019NC_OD_ind_Nord, 
 
 ```
 
-# Objectif 1 : Quelles nationalités ?
+<br>
+
+# Objectif : Quelles nationalités en NC ?
 
 Pour le recensement 2024, je dois créer une liste des 10 nationalités les plus communes en Nouvelle-Calédonie (hors nationalité Française). Je dois donc analyser les pays dont proviennent les concitoyens qui ont répondu au recensement !
 
 Voyons voir !
 
 ```{r}
+# Voici un exemple de figure (plot en anglais) avec ggplot2. 
+# L'utilisation de ce package est un peu complexe, mais elle fera l'objet d'un cours à part entière.
+
 ggplot(RP2019NC_OD_ind_3Provinces) +
  aes(x = CPAYSN) +
  geom_histogram(bins = 30L, fill = "#112446") +
@@ -69,7 +82,7 @@ ggplot(RP2019NC_OD_ind_3Provinces) +
  theme_minimal()
 ```
 
-On y comprend rien ! Dans notre documentation de données on peut voir :
+On y comprend rien, puisque des chiffres s'affichent quand on attendait des pays en abcisse ! Dans notre documentation de données on peut voir :
 
 ::: callout-note
 CPAYSN -- Code pays de naissance
@@ -81,37 +94,77 @@ Code Insee du pays de naissance (se référer aux 3 derniers chiffres du code).
 Consulter la codification des pays et territoires étrangers : https://www.insee.fr/fr/information/2028273
 :::
 
-J'ai donc été sur le site de l'INSEE récuperer la nomenclature. Importons la, joignons la à nos données et mettons à jour ce graphique.
+J'ai donc été sur le site de l'INSEE récuperer la nomenclature des pays. Importons la, joignons la à nos données et mettons à jour ce graphique.
 
 ```{r}
+
 Classification_pays_INSEE <- read_table(here("..", "02_donnees", "Classification_pays_INSEE.txt")) %>% 
+  
   # Je supprime ici tous les charactères non numériques.
-  mutate(Code = as.numeric(str_replace_all(Code, "[^0-9]", ""))) %>% 
+  mutate(Code = as.numeric(str_replace_all(Code, "[^0-9]", ""))) %>%   # <-- Le PIPE
+  
   # Et on enlève les 99 au début du code pour s'adapter à notre jeu de données.
   mutate(Code = Code - 99000)
 
 
+#La fonction "head" me permet de voir l'entête d'un jeu de données (voyez ci-dessous)
 head(Classification_pays_INSEE)
 ```
 
-Faisons la jointure avec left_join.
+Notez que ci-dessus j'utilise l'opérateur "*pipe*" (le tuyau, en anglais), qui est codé par " %\>% ". Cet opérateur permet de passer le résultat d'une opération vers une autre opérations afin de faciliter la lecture du code et le rendre plus compact.
 
-Bon, mon ordinateur n'étant pas une machine de guerre, je vais d'abord vérifier la taille de notre fichier.
+Vous allez voir c'est très simple :
+
+```{r}
+# SANS LE PIPE : Additionner 10 + 1 + 1 + 1 
+
+exemple <- 10
+exemple2 <- exemple + 1  
+exemple3 <- exemple2 + 1
+exemple4 <- exemple3 + 1
+# On nomme les nouvelles variables différemment, JAMAIS AVEC LE MÊME NOM !!!
+
+exemple4
+```
+
+C'est long, et on créé 4 variables !
+
+```{r}
+# AVEC LE PIPE 
+
+exemple <- 10 %>% 
+  +1 %>% 
+  +1 %>% 
+  +1
+
+
+exemple
+```
+
+C'est court et plus agréable à lire, non ? Hé bien dites vous que quand votre script sera long et complexe, un peu de simplicité sera plus que bienvenue !
+
+Revenons a notre objectif : Lier la nomenclature des pays obtenue sur le site de l'INSEE à notre jeu de données. Pour cela, faisons la jointure avec la fonction *left_join* (nous en reparlerons en [cours N°4](04_Cours_4_Tidyverse) ) ...
+
+... mais attention, mon ordinateur n'étant pas une machine de guerre, je vais d'abord vérifier la taille de notre fichier !
 
 ```{r}
 nrow(RP2019NC_OD_ind_3Provinces)
 ```
 
-Ouille ! On va donc enlever toutes les lignes d'invidus pour lesquels il n'y a pas de pays de naissance afin de faciliter les calculs.
+Ouille ! `r nrow(RP2019NC_OD_ind_3Provinces)` lignes ! On va donc enlever toutes les lignes d'invidus pour lesquels il n'y a pas de pays de naissance afin de faciliter les calculs.
 
 ```{r}
 RP2019NC_OD_ind_3Provinces_NesEtranger <- RP2019NC_OD_ind_3Provinces %>% 
+  
   # Filtrer les données manquantes (NA) dans la variable CPAYSN
   filter(., !is.na(CPAYSN)) %>% 
+  
   # Joindre la nomenclature des pays de l'INSEE.
   left_join(., Classification_pays_INSEE, by = c("CPAYSN" = "Code")) %>% 
+  
   # Et on supprime tous les individus en doublons qui auraient pu être crées par le left_join. 
   distinct(., ID , .keep_all = T) %>% 
+  
   # Et on sélectionne les variables d'intérêt : 
   select(., ID, CPAYSN, Continent, Pays)
 ```
@@ -122,7 +175,7 @@ Ce qui nous fait un jeu de données bien plus petit :
 nrow(RP2019NC_OD_ind_3Provinces_NesEtranger)
 ```
 
-Faisons maintenant de beaux graphiques sur les nationalités de naissance de nos concitoyens !
+Bien, nous avons maintenant des libellés pour nos pays. Faisons maintenant de beaux graphiques sur les nationalités de naissance de nos concitoyens !
 
 ```{r}
 library(grid)
@@ -130,17 +183,27 @@ library(shadowtext)
 
 # On résume les chiffres par pays 
 Nationalites_RP_2019 <- RP2019NC_OD_ind_3Provinces_NesEtranger %>% 
+  
+  # On groupe les données par pays
   group_by(., Pays) %>% 
+  
+  # Avec mutate on créé une nouvelle variable dans notre jeu de données : On l'apelle "Count", et elle comptera le nombre d'observations (de lignes) pour chaque pays.
   mutate(., Count = n()) %>% 
+  
+  # Avec distinct on supprime d'eventuels doublons dans les pays. 
   distinct(., Pays, .keep_all = T) %>% 
-  # On enlève les pays avec moins de 10 personnes
+  
+  # On enlève les pays avec moins de 10 personnes identifiées pour ne pas polluer notre graphique.
   filter(., Count > 0)
 
-# The colors
+# Définissons quelques couleurs (normalement on utilise des palettes toute faites, très jolies)
 BLUE <- "#076fa2"
 RED <- "#E3120B"
 BLACK <- "#202020"
 GREY <- "grey50"
+
+
+#Nous voila prêts pour ce nouveau graphique ! 
 
 plt <- ggplot(Nationalites_RP_2019) +
   geom_col(aes(Count, reorder(Pays, -Count)), fill = BLUE, width = 0.6)+
@@ -150,4 +213,87 @@ plt <- ggplot(Nationalites_RP_2019) +
 
 
 plt
+```
+
+Cette répartition des nationalités me semble bizarre ... Vous aussi ?
+
+J'ai été chercher de l'aide en la personne de Véronique Ujicas, qui m'a éclairé : En fait, la moitié des pays d'origine ont été déclarés dans la commune ... De plus, certains n'ont pas été codifiés (C'est à dire qu'un libellé mal orthographié n'a pas été associé au bon libellé, ni à aucun libellé d'ailleurs). Il faut donc que j'aille piocher dans la base de données du recensement, c'est l'occasion de faire un peu de SQL !
+
+Il faudra ensuite codifier tout ça, et créer une variable qui donne bien les pays d'origine.
+
+<br>
+
+**Avertissement** : Je continue l'analyse, mais avec un peu moins d'explications. Vous pouvez continuer à lire, ou bien simplement passer au cours suivant : [Cours N°3 : Rmarkdown](03_Cours_3_Rmarkdown.qmd).
+
+<br>
+
+# Suite de l'analyse
+
+Objectifs :
+
+1.  Se connecter à la DB 'recensement' de sql-data\\SOURCE.
+
+2.  Extraire les variables dont on a besoin : Pays de naissance (code + libéllé), commune de naissance.
+
+3.  Inclure les communes de naissance dans la liste des pays quand le pays est manquant (Par exemple, certains ont mis "Afrique" dans la commune de naissance ...)
+
+4.  Codifier les occurrences non codifiées.
+
+5.  Mettre à jour notre graphique !
+
+## 1) Connexion à la DB recensement 2019
+
+Pour ça, on va avoir besoin de SQL. Ça tombe bien, j'ai fait un cours pour utiliser SQL depuis R ! : [Cours N°6 : SQL & R](06_Cours_6_SQL_et_R.qmd)
+
+Commençons par créer notre connexion.
+
+```{r}
+# Vu que ce script est public, je ne peux pas partager le nom du serveur. 
+# J'ai donc stocké cette donnée dans un fichier texte auquel vous n'aurez pas accès. 
+# Si vous voulez reproduire l'exemple, c'est simple, il suffit de demander le nom de serveur aux collègues !
+
+Donnees_confidentielles <- read_delim("Donnees_confidentielles.txt", 
+    delim = "\t", escape_double = FALSE, 
+    trim_ws = TRUE)
+
+nom_serveur_prod <- as.character(Donnees_confidentielles[1,2])
+
+
+RP2019_con <- dbConnect(odbc(), 
+                        Driver = "SQL Server", 
+                        Server = nom_serveur_prod, 
+                        Database = "recensement",
+                        Trusted_Connection = "True") 
+# La trusted connection fonctionne car vous êtes déjà authentifié sur votre session windows :) 
+```
+
+Génial, nous voila connectés.
+
+## 2) Extraire les variables d'intérêt
+
+Reste à extraire les données individuelles de 2019, pour les variables dont on a besoin : Pays de naissance (code + libellé), commune de naissance.
+
+```{r}
+RP2019_DB_individus <- RP2019_con %>% 
+  tbl(in_schema("2019", "individus")) %>% 
+  # Puis on pipe une action, ici la fonction select, 
+  # comme on le ferait sur n'importe quel jeu de données. 
+  select(., AN, CN,  CNAT, CPAYSN, ILN, NAT) 
+```
+
+Je découvre que dans la BDD SQL, il y a bien plus que dans l'OPEN DATA ! Je vais donc extraire toutes les variables en lien avec la naissance.
+
+-   AN : Année de naissance de l'individu (longueur : 4 ; type : numérique)
+
+-   CN -- Commune de naissance (longueur : 2 ; type : caractère)
+
+-   CNAT -- Code nationalité (longueur : 3 ; type : caractère)
+
+Il ne nous reste plus qu'à manipuler nos données.
+
+```{r}
+View(RP2019_DB_individus)
+
+nrow(RP2019_DB_individus)
+RP2019_DB_individus$CNAT
 ```

@@ -10,11 +10,13 @@ website:
           - text: Ma page github
             url:  https://github.com/NoeBarthelemy
           - text: Code source du site 
-            url:  https://bugs.com
+            url:  https://github.com/NoeBarthelemy/Formation-R---ISEE-2024/tree/34caac27f3d72bfecaac51aeb44c894d4cbc45ff
     search: true
     left:
       - href: Sommaire_cours.qmd
         text: "La formation R" 
+      - href: Fonctions_utiles.qmd
+        text: "Fonctions utiles & exemples"
       - href: Trouver_de_laide.qmd
         text: "Besoin d'aide ?"
       - href: Charte_bonnes_pratiques.qmd
@@ -32,6 +34,14 @@ website:
           text: "Cours N°1 : Les bases"
         - href: 02_Cours_2_Analyser_le_RP.qmd
           text: "Cours N°2 : Analyse du RP"
+        - href: 03_Cours_3_Rmarkdown.qmd
+          text : "Cours N°3 : Rmarkdown"
+        - href: 04_Cours_4_Tidyverse.qmd
+          text: "Cours N°4 : Le Tidyverse"
+        - href: 05_Cours_5_DataViz.qmd
+          text: "Cours N°5 : Data Viz'"
+        - href: 06_Cours_6_SQL_et_R.qmd
+          text: "Cours N°6 : SQL & R"
 
     - title: "Besoin d'aide ?"
       contents:
@@ -43,6 +53,12 @@ website:
         - Charte_bonnes_pratiques.qmd
         # navigation items
 
+    - title: "Fonctions utiles & exemples"
+      contents:
+        - Fonctions_utiles.qmd
+        # navigation items
+
+
     
 format:
   html:
@@ -50,9 +66,11 @@ format:
     css: styles.css
     toc: true
     width: 100%
-    margin-left: 10px
-    margin-right: 10px
-    back-to-top-navigation: true
+    grid:
+      sidebar-width: 320px
+      body-width: 980px
+      margin-width: 550px
+    
 
 
 
